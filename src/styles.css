@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap');
+
+
+:root {
+    --color-primary: #88D9F4;
+    --color-accent: #FE730C;
+    --color-secondary: #B94D06;
+
+    --color-dark-blue: #06174C;
+    --color-blue: #23528C;
+
+    --color-background: #F4F7FA;
+
+    --color-text: #333333;
+    --color-black: #000000;
+
+    /*fontes*/
+    --font-highlight: 'Pacifico', cursive;
+    --font-title: 'Quicksand', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+}
