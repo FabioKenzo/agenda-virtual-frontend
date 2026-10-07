@@ -1,0 +1,118 @@
+<div class="home-page">
+
+    <!-- header -->
+    <header class="home-header">
+        <div class="container header-content">
+
+            <div class="header-brand">
+                <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#responsavelMenu"
+                    aria-controls="responsavelMenu" aria-label="Abrir menu">
+                    <i class="bi bi-list"></i>
+                </button>
+
+                <h1>Agenda Virtual</h1>
+            </div>
+
+            <button class="btn-logout" type="button">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sair</span>
+            </button>
+
+        </div>
+    </header>
+
+
+    <!-- menu da lateral -->
+    <div class="offcanvas offcanvas-start responsavel-menu" tabindex="-1" id="responsavelMenu"
+        aria-labelledby="responsavelMenuLabel">
+
+        <div class="offcanvas-header">
+            <h2 id="responsavelMenuLabel">Agenda Virtual</h2>
+
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+        </div>
+
+        <div class="offcanvas-body">
+
+            <nav class="menu-navigation">
+
+                <a class="menu-item active" href="#">
+                    <i class="bi bi-house-door"></i>
+                    <span>Início</span>
+                </a>
+
+                <a class="menu-item" href="#">
+                    <i class="bi bi-calendar-event"></i>
+                    <span>Eventos</span>
+                </a>
+
+                <a class="menu-item" href="#">
+                    <i class="bi bi-megaphone"></i>
+                    <span>Comunicados</span>
+                </a>
+
+                <a class="menu-item" href="#">
+                    <i class="bi bi-people"></i>
+                    <span>Meus alunos</span>
+                </a>
+
+            </nav>
+
+        </div>
+    </div>
+
+
+    <!-- conteudo -->
+    <main class="container home-content">
+
+        <section class="welcome-section">
+            <p class="welcome-label">Bem-vindo(a) à</p>
+
+            <h2>Agenda Virtual</h2>
+
+            <p class="welcome-text">
+                Acompanhe os eventos e comunicados da escola.
+            </p>
+        </section>
+
+
+        <!-- eventos -->
+        <section class="home-section">
+
+            <div class="section-title">
+                <div>
+                    <span>Próximos</span>
+                    <h3>Eventos</h3>
+                </div>
+
+                <i class="bi bi-calendar-event"></i>
+            </div>
+
+            <div class="content-placeholder">
+                <p>Os próximos eventos aparecerão aqui.</p>
+            </div>
+
+        </section>
+
+
+        <!-- comunicados -->
+        <section class="home-section">
+
+            <div class="section-title">
+                <div>
+                    <span>Últimos</span>
+                    <h3>Comunicados</h3>
+                </div>
+
+                <i class="bi bi-megaphone"></i>
+            </div>
+
+            <div class="content-placeholder">
+                <p>Os comunicados aparecerão aqui.</p>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>

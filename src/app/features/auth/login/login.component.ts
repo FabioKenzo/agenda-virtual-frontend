@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
@@ -22,7 +24,10 @@ export class LoginComponent {
     ])
   });
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router) { }
+
   onSubmit(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
@@ -34,7 +39,11 @@ export class LoginComponent {
 
     this.authService.login(email, senha).subscribe({
       next: (response) => {
+
         this.authService.saveToken(response.token);
+
+        this.router.navigate(['/responsavel']);
+
       },
       error: (error) => {
         console.error('Erro ao realizar login:', error);
