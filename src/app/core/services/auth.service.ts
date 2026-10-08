@@ -1,18 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 
 
-interface LoginRequest{
+interface LoginRequest {
   email: string;
   senha: string;
 }
-
-
-interface LoginResponse{
-  token: string;
-}
-
 
 @Injectable({
   providedIn: 'root'
@@ -20,28 +15,36 @@ interface LoginResponse{
 export class AuthService {
 
   private readonly apiUrl = 'http://localhost:8080';
-  private readonly tokenKey = 'agenda_virtual_token';
+  
 
   constructor(private http: HttpClient) { }
 
-  login(email: string, senha: string): Observable<LoginResponse>{
-    const request: LoginRequest ={
+  login(email: string, senha: string): Observable<void> {
+
+    const request: LoginRequest = {
       email,
       senha
     };
 
-    return this.http.post<LoginResponse>(
+    return this.http.post<void>(
       `${this.apiUrl}/auth/login`,
-      request
+      request,
+      {withCredentials: true}
     );
   }
 
-  saveToken(token: string): void{
-    localStorage.setItem(this.tokenKey, token);
+  logout(): Observable<void>{
+    return this.http.post<void>(
+      `${this.apiUrl}/auth/logout`,
+      {},
+      {withCredentials: true}
+    );
   }
 
-  getToken(): string | null{
-    return localStorage.getItem(this.tokenKey);
-  }
-
+  checkSession(): Observable<void> {
+  return this.http.get<void>(
+    `${this.apiUrl}/auth/me`,
+    { withCredentials: true }
+  );
+}
 }

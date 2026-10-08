@@ -38,13 +38,11 @@ export class LoginComponent {
     const senha = this.loginForm.value.senha!;
 
     this.authService.login(email, senha).subscribe({
-      next: (response) => {
-
-        this.authService.saveToken(response.token);
+      next: () => {
 
         this.router.navigate(['/responsavel']);
-
       },
+      
       error: (error) => {
         console.error('Erro ao realizar login:', error);
       }

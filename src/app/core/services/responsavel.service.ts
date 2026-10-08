@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Evento } from '../models/evento';
 
 
 @Injectable({
@@ -14,5 +15,9 @@ export class ResponsavelService {
 
   getAlunos(): Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/responsavel/alunos`);
+  }
+
+  getEventos(): Observable<Evento[]>{
+    return this.http.get<Evento[]>(`${this.apiUrl}/responsavel/eventos`);
   }
 }
