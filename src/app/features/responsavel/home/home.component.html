@@ -88,9 +88,79 @@
                 <i class="bi bi-calendar-event"></i>
             </div>
 
+            @if (carregandoEventos) {
             <div class="content-placeholder">
-                <p>Os próximos eventos aparecerão aqui.</p>
+                <p>Carregando eventos...</p>
             </div>
+            } @else if (erroEventos) {
+            <div class="content-placeholder">
+                <p>Não foi possível carregar os eventos.</p>
+                <button type="button" class="btn btn-outline-primary" (click)="carregarEventos()">
+                    Tentar novamente
+                </button>
+            </div>
+            } @else if (eventos.length === 0) {
+            <div class="content-placeholder">
+                <p>Nenhum evento disponível no momento.</p>
+            </div>
+            } @else {
+            <div class="row g-3">
+                @for (evento of eventos; track evento.id) {
+                <div class="col-12 col-md-6 col-lg-4">
+
+                    <article class="card evento-card">
+
+                        @if (evento.bannerUrl) {
+                        <img [src]="evento.bannerUrl" [alt]="'Banner do evento ' + evento.titulo"
+                            class="evento-banner" />
+                        }
+
+                        <div class="card-body">
+
+                            <h4 class="evento-titulo">
+                                {{ evento.titulo }}
+                            </h4>
+
+                            <p class="evento-descricao">
+                                {{ evento.descricao }}
+                            </p>
+
+                            <div class="evento-informacoes">
+
+                                <p>
+                                    <i class="bi bi-calendar-event"></i>
+                                    <span>{{ evento.data.split('-').reverse().join('/') }}</span>
+                                </p>
+
+                                <p>
+                                    <i class="bi bi-clock"></i>
+                                    <span>
+                                        {{ evento.horaInicio.slice(0, 5) }} - {{ evento.horaFim.slice(0, 5) }}
+                                    </span>
+                                </p>
+
+                                <p>
+                                    <i class="bi bi-geo-alt"></i>
+                                    <span>{{ evento.local }}</span>
+                                </p>
+
+                            </div>
+
+                            @if (evento.status) {
+                            <span class="evento-status">
+                                {{ evento.status }}
+                            </span>
+                            }
+
+                        </div>
+
+                    </article>
+
+                </div>
+                }
+            </div>
+            }
+
 
         </section>
 
@@ -107,9 +177,50 @@
                 <i class="bi bi-megaphone"></i>
             </div>
 
+
+            @if (carregandoComunicados) {
             <div class="content-placeholder">
-                <p>Os comunicados aparecerão aqui.</p>
+                <p>Carregando comunicados...</p>
             </div>
+            } @else if (erroComunicados) {
+            <div class="content-placeholder">
+                <p>Não foi possível carregar os comunicados.</p>
+
+                <button type="button" class="btn btn-outline-primary mt-3" (click)="carregarComunicados()">
+                    Tentar novamente
+                </button>
+            </div>
+            } @else if (comunicados.length === 0) {
+            <div class="content-placeholder">
+                <p>Nenhum comunicado disponível no momento.</p>
+            </div>
+            } @else {
+            <div class="row g-3">
+                @for (comunicado of comunicados; track comunicado.id) {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <article class="card h-100">
+                        <div class="card-body">
+
+                            <h4 class="card-title h5">
+                                {{ comunicado.titulo }}
+                            </h4>
+
+                            <p class="card-text">
+                                {{ comunicado.conteudo }}
+                            </p>
+
+                            <p class="text-muted small mb-0">
+                                <i class="bi bi-calendar-event"></i>
+                                {{ comunicado.createdAt }}
+                            </p>
+
+                        </div>
+                    </article>
+                </div>
+                }
+            </div>
+            }
+
 
         </section>
 
