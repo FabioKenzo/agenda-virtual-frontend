@@ -27,4 +27,12 @@ export class ResponsavelService {
       `${this.apiUrl}/responsavel/comunicados`
     );
   }
+
+
+  getComunicadoPorId(id: number): Observable<Comunicado> {
+    return this.http.get<Comunicado>(
+      `${this.apiUrl}/responsavel/comunicados/${id}`
+    );
+  }
+
 }

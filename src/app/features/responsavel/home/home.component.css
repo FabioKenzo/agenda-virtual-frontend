@@ -381,3 +381,51 @@
         height: 160px;
     }
 }
+
+
+/* cards comunicados */
+
+.comunicado-card {
+    border: 1px solid #e9edf3;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+}
+
+.comunicado-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.comunicado-card .card-body {
+    padding: 22px;
+}
+
+.comunicado-titulo {
+    color: var(--color-blue);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.comunicado-conteudo {
+    color: var(--color-dark-blue);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    white-space: pre-line;
+}
+
+.comunicado-data {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #667085;
+    font-size: 0.85rem;
+}
+
+.comunicado-data i {
+    color: var(--color-blue);
+    font-size: 1rem;
+}
