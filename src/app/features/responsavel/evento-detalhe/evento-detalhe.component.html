@@ -1,0 +1,85 @@
+<main class="container py-5">
+
+    <a routerLink="/responsavel" class="btn btn-outline-primary mb-4">
+        <i class="bi bi-arrow-left me-2"></i>
+        Voltar para Home
+    </a>
+
+    @if (carregando) {
+    <div class="text-center py-5">
+        <p>Carregando evento...</p>
+    </div>
+    } @else if (erro) {
+    <div class="alert alert-warning">
+        Não foi possível encontrar este evento.
+    </div>
+    } @else if (evento) {
+
+    <article class="card border-0 shadow-sm rounded-4 overflow-hidden">
+
+        @if (evento.bannerUrl) {
+        <img [src]="evento.bannerUrl" [alt]="'Banner do evento ' + evento.titulo" class="evento-banner">
+        }
+
+        <div class="card-body p-4 p-md-5">
+
+            <p class="text-primary fw-semibold mb-2">
+                <i class="bi bi-calendar-event me-2"></i>
+                Evento Escolar
+            </p>
+
+            <h1 class="h2 mb-4">{{ evento.titulo }}</h1>
+
+            <div class="evento-informacoes mb-4">
+
+                <p>
+                    <i class="bi bi-calendar3 me-2"></i>
+                    {{ evento.data | date:'dd/MM/yyyy':'UTC' }}
+                </p>
+
+                @if (evento.horaInicio) {
+                <p>
+                    <i class="bi bi-clock me-2"></i>
+                    {{ evento.horaInicio.slice(0, 5) }}
+
+                    @if (evento.horaFim) {
+                    às {{ evento.horaFim.slice(0, 5) }}
+                    }
+                </p>
+                }
+
+                @if (evento.local) {
+                <p>
+                    <i class="bi bi-geo-alt me-2"></i>
+                    {{ evento.local }}
+                </p>
+                }
+
+            </div>
+
+            <hr class="mb-4">
+
+            <h2 class="h5 mb-3">Sobre o evento</h2>
+            <div class="evento-texto mb-4">
+                {{ evento.descricao }}
+            </div>
+
+            @if (evento.observacoes) {
+            <h2 class="h5 mb-3">Orientações adicionais</h2>
+            <div class="evento-texto mb-4">
+                {{ evento.observacoes }}
+            </div>
+            }
+
+            @if (evento.whatsappUrl) {
+            <a [href]="evento.whatsappUrl" target="_blank" rel="noopener noreferrer" class="btn btn-success">
+                <i class="bi bi-whatsapp me-2"></i>
+                Entrar em contato pelo WhatsApp
+            </a>
+            }
+
+        </div>
+    </article>
+    }
+
+</main>
