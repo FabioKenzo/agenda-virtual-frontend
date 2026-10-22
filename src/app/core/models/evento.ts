@@ -3,11 +3,11 @@ export interface Evento {
     titulo: string;
     descricao: string;
     data: string;
-    horaInicio: string;
-    horaFim: string;
-    local: string;
-    observacoes: string;
-    whatsappUrl: string;
-    bannerUrl: string;
+    horaInicio: string | null;
+    horaFim: string | null;
+    local: string | null;
+    observacoes: string | null;
+    whatsappUrl: string | null;
+    bannerUrl: string | null;
     status: string;
 }

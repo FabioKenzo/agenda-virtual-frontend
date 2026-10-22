@@ -22,6 +22,12 @@ export class ResponsavelService {
     return this.http.get<Evento[]>(`${this.apiUrl}/responsavel/eventos`);
   }
 
+  getEventoPorId(id: number): Observable<Evento> {
+    return this.http.get<Evento>(
+      `${this.apiUrl}/responsavel/eventos/${id}`
+    );
+  }
+
   getComunicados(): Observable<Comunicado[]> {
     return this.http.get<Comunicado[]>(
       `${this.apiUrl}/responsavel/comunicados`

@@ -1,6 +1,6 @@
 <div class="home-page">
 
-    <!-- header -->
+    <!-- Header -->
     <header class="home-header">
         <div class="container header-content">
 
@@ -21,8 +21,7 @@
         </div>
     </header>
 
-
-    <!-- menu da lateral -->
+    <!-- Menu lateral -->
     <div class="offcanvas offcanvas-start responsavel-menu" tabindex="-1" id="responsavelMenu"
         aria-labelledby="responsavelMenuLabel">
 
@@ -61,8 +60,7 @@
         </div>
     </div>
 
-
-    <!-- conteudo -->
+    <!-- Conteúdo principal -->
     <main class="container home-content">
 
         <section class="welcome-section">
@@ -75,8 +73,7 @@
             </p>
         </section>
 
-
-        <!-- eventos -->
+        <!-- Eventos -->
         <section class="home-section">
 
             <div class="section-title">
@@ -89,83 +86,115 @@
             </div>
 
             @if (carregandoEventos) {
+
             <div class="content-placeholder">
                 <p>Carregando eventos...</p>
             </div>
+
             } @else if (erroEventos) {
+
             <div class="content-placeholder">
                 <p>Não foi possível carregar os eventos.</p>
+
                 <button type="button" class="btn btn-outline-primary" (click)="carregarEventos()">
                     Tentar novamente
                 </button>
             </div>
+
             } @else if (eventos.length === 0) {
+
             <div class="content-placeholder">
                 <p>Nenhum evento disponível no momento.</p>
             </div>
+
             } @else {
+
             <div class="row g-3">
+
                 @for (evento of eventos; track evento.id) {
+
                 <div class="col-12 col-md-6 col-lg-4">
 
-                    <article class="card evento-card">
+                    <a [routerLink]="['/responsavel/eventos', evento.id]" class="text-decoration-none d-block h-100">
 
-                        @if (evento.bannerUrl) {
-                        <img [src]="evento.bannerUrl" [alt]="'Banner do evento ' + evento.titulo"
-                            class="evento-banner" />
-                        }
+                        <article class="card evento-card h-100">
 
-                        <div class="card-body">
+                            @if (evento.bannerUrl) {
+                            <img [src]="evento.bannerUrl" [alt]="'Banner do evento ' + evento.titulo"
+                                class="evento-banner" />
+                            }
 
-                            <h4 class="evento-titulo">
-                                {{ evento.titulo }}
-                            </h4>
+                            <div class="card-body">
 
-                            <p class="evento-descricao">
-                                {{ evento.descricao }}
-                            </p>
+                                <h4 class="evento-titulo">
+                                    {{ evento.titulo }}
+                                </h4>
 
-                            <div class="evento-informacoes">
-
-                                <p>
-                                    <i class="bi bi-calendar-event"></i>
-                                    <span>{{ evento.data.split('-').reverse().join('/') }}</span>
+                                <p class="evento-descricao">
+                                    {{ evento.descricao }}
                                 </p>
 
-                                <p>
-                                    <i class="bi bi-clock"></i>
-                                    <span>
-                                        {{ evento.horaInicio.slice(0, 5) }} - {{ evento.horaFim.slice(0, 5) }}
-                                    </span>
-                                </p>
+                                <div class="evento-informacoes">
 
-                                <p>
-                                    <i class="bi bi-geo-alt"></i>
-                                    <span>{{ evento.local }}</span>
-                                </p>
+                                    <p>
+                                        <i class="bi bi-calendar-event"></i>
+                                        <span>
+                                            {{ evento.data.split('-').reverse().join('/') }}
+                                        </span>
+                                    </p>
+
+                                    @if (evento.horaInicio) {
+                                    <p>
+                                        <i class="bi bi-clock"></i>
+                                        <span>
+                                            {{ evento.horaInicio.slice(0, 5) }}
+
+                                            @if (evento.horaFim) {
+                                            - {{ evento.horaFim.slice(0, 5) }}
+                                            }
+                                        </span>
+                                    </p>
+                                    } @else if (evento.horaFim) {
+                                    <p>
+                                        <i class="bi bi-clock"></i>
+                                        <span>
+                                            Até {{ evento.horaFim.slice(0, 5) }}
+                                        </span>
+                                    </p>
+                                    }
+
+                                    @if (evento.local) {
+                                    <p>
+                                        <i class="bi bi-geo-alt"></i>
+                                        <span>{{ evento.local }}</span>
+                                    </p>
+                                    }
+
+                                </div>
+
+                                @if (evento.status) {
+                                <span class="evento-status">
+                                    {{ evento.status }}
+                                </span>
+                                }
 
                             </div>
 
-                            @if (evento.status) {
-                            <span class="evento-status">
-                                {{ evento.status }}
-                            </span>
-                            }
+                        </article>
 
-                        </div>
-
-                    </article>
+                    </a>
 
                 </div>
-                }
-            </div>
-            }
 
+                }
+
+            </div>
+
+            }
 
         </section>
 
-
-        <!-- comunicados -->
+        <!-- Comunicados -->
         <section class="home-section">
 
             <div class="section-title">
@@ -177,12 +206,14 @@
                 <i class="bi bi-megaphone"></i>
             </div>
 
-
             @if (carregandoComunicados) {
+
             <div class="content-placeholder">
                 <p>Carregando comunicados...</p>
             </div>
+
             } @else if (erroComunicados) {
+
             <div class="content-placeholder">
                 <p>Não foi possível carregar os comunicados.</p>
 
@@ -190,38 +221,57 @@
                     Tentar novamente
                 </button>
             </div>
+
             } @else if (comunicados.length === 0) {
+
             <div class="content-placeholder">
                 <p>Nenhum comunicado disponível no momento.</p>
             </div>
+
             } @else {
+
             <div class="row g-3">
+
                 @for (comunicado of comunicados; track comunicado.id) {
+
                 <div class="col-12 col-md-6 col-lg-4">
 
                     <a [routerLink]="['/responsavel/comunicados', comunicado.id]"
                         class="text-decoration-none d-block h-100">
-                        <article class="card comunicado-card h-100">
-                            <div class="card-body">
-                                <h4 class="comunicado-titulo">{{ comunicado.titulo }}</h4>
 
-                                <p class="comunicado-conteudo">{{ comunicado.conteudo }}</p>
+                        <article class="card comunicado-card h-100">
+
+                            <div class="card-body">
+
+                                <h4 class="comunicado-titulo">
+                                    {{ comunicado.titulo }}
+                                </h4>
+
+                                <p class="comunicado-conteudo">
+                                    {{ comunicado.conteudo }}
+                                </p>
 
                                 <div class="comunicado-data">
                                     <i class="bi bi-calendar-event"></i>
+
                                     <span>
                                         {{ comunicado.createdAt | date:'dd/MM/yyyy \'às\' HH:mm' }}
                                     </span>
                                 </div>
+
                             </div>
+
                         </article>
+
                     </a>
 
                 </div>
-                }
-            </div>
-            }
 
+                }
+
+            </div>
+
+            }
 
         </section>
 
