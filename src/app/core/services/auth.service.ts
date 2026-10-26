@@ -2,6 +2,7 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
+import { AuthUser } from '../models/auth-user';
 
 
 interface LoginRequest {
@@ -15,7 +16,7 @@ interface LoginRequest {
 export class AuthService {
 
   private readonly apiUrl = 'http://localhost:8080';
-  
+
 
   constructor(private http: HttpClient) { }
 
@@ -29,22 +30,23 @@ export class AuthService {
     return this.http.post<void>(
       `${this.apiUrl}/auth/login`,
       request,
-      {withCredentials: true}
+      { withCredentials: true }
     );
   }
 
-  logout(): Observable<void>{
+  logout(): Observable<void> {
     return this.http.post<void>(
       `${this.apiUrl}/auth/logout`,
       {},
-      {withCredentials: true}
+      { withCredentials: true }
     );
   }
 
-  checkSession(): Observable<void> {
-  return this.http.get<void>(
-    `${this.apiUrl}/auth/me`,
-    { withCredentials: true }
-  );
+  checkSession(): Observable<AuthUser> {
+    return this.http.get<AuthUser>(
+      `${this.apiUrl}/auth/me`,
+      { withCredentials: true }
+    );
+  }
 }
-}
+
