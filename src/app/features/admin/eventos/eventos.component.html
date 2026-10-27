@@ -1,0 +1,96 @@
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Gerenciamento de Eventos</h2>
+            <p class="text-muted mb-0">
+                Visualize e gerencie os eventos cadastrados na escola.
+            </p>
+        </div>
+
+        <button class="btn btn-primary" type="button" disabled>
+            + Novo Evento
+        </button>
+    </div>
+
+    @if (carregando) {
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="text-muted mt-3">Carregando eventos...</p>
+    </div>
+    } @else if (erro) {
+    <div class="alert alert-danger" role="alert">
+        {{ erro }}
+    </div>
+    } @else if (eventos.length === 0) {
+    <div class="alert alert-info" role="status">
+        Nenhum evento cadastrado.
+    </div>
+    } @else {
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">Evento</th>
+                            <th>Data</th>
+                            <th>Horário</th>
+                            <th>Status</th>
+                            <th class="text-end pe-4">Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @for (evento of eventos; track evento.id) {
+                        <tr>
+                            <td class="ps-4">
+                                <div class="fw-semibold">
+                                    {{ evento.titulo }}
+                                </div>
+                                <small class="text-muted">
+                                    {{ evento.local || 'Local não informado' }}
+                                </small>
+                            </td>
+
+                            <td>
+                                {{ evento.data | date:'dd/MM/yyyy':'':'pt-BR' }}
+                            </td>
+
+                            <td>
+                                {{ evento.horaInicio?.slice(0, 5) || '--:--' }}
+                            </td>
+
+                            <td>
+                                @switch (evento.status) {
+                                @case ('AGENDADO') {
+                                <span class="badge bg-primary">Agendado</span>
+                                }
+                                @case ('CANCELADO') {
+                                <span class="badge bg-danger">Cancelado</span>
+                                }
+                                @case ('FINALIZADO') {
+                                <span class="badge bg-success">Finalizado</span>
+                                }
+                                }
+                            </td>
+
+                            <td class="text-end pe-4">
+                                <button type="button" class="btn btn-sm btn-outline-primary me-2" disabled>
+                                    Editar
+                                </button>
+
+                                <button type="button" class="btn btn-sm btn-outline-danger" disabled>
+                                    Excluir
+                                </button>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    }
+
+</div>

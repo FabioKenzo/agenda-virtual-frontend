@@ -6,6 +6,7 @@ import { EventoDetalheComponent } from './features/responsavel/evento-detalhe/ev
 import { roleGuard } from './core/guards/role.guard';
 import { DashboardComponent } from './features/admin/dashboard/dashboard.component';
 import { AdminLayoutComponent } from './features/admin/layout/admin-layout/admin-layout.component';
+import { EventosComponent } from './features/admin/eventos/eventos.component';
 
 export const routes: Routes = [
 
@@ -44,6 +45,10 @@ export const routes: Routes = [
             {
                 path: '',
                 component: DashboardComponent
+            },
+            {
+                path: 'eventos',
+                component: EventosComponent
             }
         ]
     }

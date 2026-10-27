@@ -10,13 +10,15 @@
 
             <nav class="nav flex-column gap-2">
 
-                <span class="nav-link text-white fw-semibold">
+                <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                    class="nav-link text-white" #dashboardLink="routerLinkActive"
+                    [class.fw-semibold]="dashboardLink.isActive">
                     Dashboard
-                </span>
+                </a>
 
-                <span class="nav-link text-white-50">
+                <a routerLink="/admin/eventos" routerLinkActive="active" class="nav-link text-white">
                     Eventos
-                </span>
+                </a>
 
                 <span class="nav-link text-white-50">
                     Comunicados
