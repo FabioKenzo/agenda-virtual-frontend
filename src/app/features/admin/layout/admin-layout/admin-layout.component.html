@@ -1,0 +1,51 @@
+<div class="container-fluid min-vh-100 bg-light">
+    <div class="row min-vh-100">
+
+        <!-- MENU LATERAL -->
+        <aside class="col-md-3 col-lg-2 bg-dark text-white p-4">
+
+            <h5 class="fw-bold mb-4">
+                Agenda Virtual
+            </h5>
+
+            <nav class="nav flex-column gap-2">
+
+                <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                    class="nav-link text-white" #dashboardLink="routerLinkActive"
+                    [class.fw-semibold]="dashboardLink.isActive">
+                    Dashboard
+                </a>
+
+                <a routerLink="/admin/eventos" routerLinkActive="active" class="nav-link text-white">
+                    Eventos
+                </a>
+
+                <span class="nav-link text-white-50">
+                    Comunicados
+                </span>
+
+                <span class="nav-link text-white-50">
+                    Alunos
+                </span>
+
+            </nav>
+
+            <hr class="border-secondary my-4">
+
+            <button type="button" class="btn btn-outline-light w-100" (click)="logout()">
+
+                Sair da conta
+
+            </button>
+
+        </aside>
+
+        <!-- CONTEÚDO DINÂMICO -->
+        <main class="col-md-9 col-lg-10 p-4 p-lg-5">
+
+            <router-outlet></router-outlet>
+
+        </main>
+
+    </div>
+</div>

@@ -5,10 +5,10 @@ import { Router } from '@angular/router';
 
 
 @Component({
-    selector: 'app-login',
-    imports: [ReactiveFormsModule],
-    templateUrl: './login.component.html',
-    styleUrl: './login.component.css'
+  selector: 'app-login',
+  imports: [ReactiveFormsModule],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css'
 })
 export class LoginComponent {
 
@@ -38,15 +38,25 @@ export class LoginComponent {
 
     this.authService.login(email, senha).subscribe({
       next: () => {
-
-        this.router.navigate(['/responsavel']);
+        this.authService.checkSession().subscribe({
+          next: (user) => {
+            if (user.role === 'ADMIN') {
+              this.router.navigate(['/admin']);
+            } else if (user.role === 'RESPONSAVEL') {
+              this.router.navigate(['/responsavel']);
+            } else {
+              console.error('Perfil de usuário não reconhecido.');
+            }
+          },
+          error: (error) => {
+            console.error('Erro ao consultar usuário autenticado:', error);
+          }
+        });
       },
-      
       error: (error) => {
         console.error('Erro ao realizar login:', error);
       }
     });
-
   }
 
 }
