@@ -1,0 +1,141 @@
+<div class="container-fluid">
+
+    <div class="mb-4">
+        <h2 class="fw-bold mb-1">Novo Evento</h2>
+        <p class="text-muted">
+            Preencha as informações para cadastrar um evento escolar.
+        </p>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+
+            <form [formGroup]="eventoForm">
+
+                <!-- Título -->
+                <div class="mb-3">
+                    <label for="titulo" class="form-label fw-semibold">
+                        Título *
+                    </label>
+
+                    <input id="titulo" type="text" class="form-control" formControlName="titulo" maxlength="150"
+                        placeholder="Ex.: Reunião de Pais">
+
+                    @if (eventoForm.controls.titulo.touched &&
+                    eventoForm.controls.titulo.invalid) {
+                    <small class="text-danger">
+                        Informe um título válido de até 150 caracteres.
+                    </small>
+                    }
+                </div>
+
+                <!-- Descrição -->
+                <div class="mb-3">
+                    <label for="descricao" class="form-label fw-semibold">
+                        Descrição *
+                    </label>
+
+                    <textarea id="descricao" class="form-control" formControlName="descricao" rows="4"
+                        placeholder="Descreva o evento"></textarea>
+
+                    @if (eventoForm.controls.descricao.touched &&
+                    eventoForm.controls.descricao.invalid) {
+                    <small class="text-danger">
+                        A descrição é obrigatória.
+                    </small>
+                    }
+                </div>
+
+                <!-- Data e horários -->
+                <div class="row g-3 mb-3">
+
+                    <div class="col-md-4">
+                        <label for="data" class="form-label fw-semibold">
+                            Data *
+                        </label>
+                        <input id="data" type="date" class="form-control" formControlName="data">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="horaInicio" class="form-label fw-semibold">
+                            Hora de início
+                        </label>
+                        <input id="horaInicio" type="time" class="form-control" formControlName="horaInicio">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="horaFim" class="form-label fw-semibold">
+                            Hora de término
+                        </label>
+                        <input id="horaFim" type="time" class="form-control" formControlName="horaFim">
+                    </div>
+
+                </div>
+
+                <!-- Local -->
+                <div class="mb-3">
+                    <label for="local" class="form-label fw-semibold">
+                        Local
+                    </label>
+                    <input id="local" type="text" class="form-control" formControlName="local" maxlength="150"
+                        placeholder="Ex.: Auditório da escola">
+                </div>
+
+                <!-- Observações -->
+                <div class="mb-3">
+                    <label for="observacoes" class="form-label fw-semibold">
+                        Observações
+                    </label>
+                    <textarea id="observacoes" class="form-control" formControlName="observacoes" rows="3"></textarea>
+                </div>
+
+                <!-- Links -->
+                <div class="row g-3 mb-3">
+
+                    <div class="col-md-6">
+                        <label for="whatsappUrl" class="form-label fw-semibold">
+                            URL do WhatsApp
+                        </label>
+                        <input id="whatsappUrl" type="url" class="form-control" formControlName="whatsappUrl"
+                            maxlength="500" placeholder="https://wa.me/...">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="bannerUrl" class="form-label fw-semibold">
+                            URL do banner
+                        </label>
+                        <input id="bannerUrl" type="url" class="form-control" formControlName="bannerUrl"
+                            maxlength="500" placeholder="https://...">
+                    </div>
+
+                </div>
+
+                <!-- Status -->
+                <div class="mb-4">
+                    <label for="status" class="form-label fw-semibold">
+                        Status *
+                    </label>
+                    <select id="status" class="form-select" formControlName="status">
+                        <option value="AGENDADO">Agendado</option>
+                        <option value="CANCELADO">Cancelado</option>
+                        <option value="FINALIZADO">Finalizado</option>
+                    </select>
+                </div>
+
+                <!-- Ações -->
+                <div class="d-flex justify-content-end gap-2">
+                    <a routerLink="/admin/eventos" class="btn btn-outline-secondary">
+                        Cancelar
+                    </a>
+
+                    <button type="button" class="btn btn-primary" disabled>
+                        Salvar Evento
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
