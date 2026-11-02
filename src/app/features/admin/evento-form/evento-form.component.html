@@ -171,6 +171,20 @@
                     </div>
                     }
 
+
+                    @if (erroExclusao) {
+                    <div class="alert alert-danger" role="alert">
+                        {{ erroExclusao }}
+                    </div>
+                    }
+
+                    @if (sucessoExclusao) {
+                    <div class="alert alert-success" role="status">
+                        {{ sucessoExclusao }}
+                    </div>
+                    }
+
+
                     @if (!carregandoImagens && !erroImagens) {
 
                     @if (imagens.length === 0) {
@@ -200,6 +214,21 @@
                                     <small class="text-muted">
                                         {{ imagem.contentType }}
                                     </small>
+
+
+                                    <div class="mt-3">
+                                        <button type="button" class="btn btn-outline-danger btn-sm w-100"
+                                            [disabled]="excluindoImagemId !== null" (click)="excluirImagem(imagem)">
+
+                                            @if (excluindoImagemId === imagem.id) {
+                                            Excluindo...
+                                            } @else {
+                                            Excluir imagem
+                                            }
+
+                                        </button>
+                                    </div>
+
 
                                 </div>
 

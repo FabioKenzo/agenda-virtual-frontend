@@ -23,6 +23,12 @@ export class EventoFormComponent implements OnInit {
   erroUpload = '';
   sucessoUpload = '';
 
+  // Exclusão de imagens
+  excluindoImagemId: number | null = null;
+  erroExclusao = '';
+  sucessoExclusao = '';
+
+
   // Formulário de cadastro de eventos
   eventoForm = this.fb.nonNullable.group({
     titulo: ['', [Validators.required, Validators.maxLength(150)]],
@@ -108,6 +114,50 @@ export class EventoFormComponent implements OnInit {
       }
     });
   }
+
+
+  excluirImagem(imagem: Media): void {
+    const confirmou = window.confirm(
+      `Deseja realmente excluir a imagem "${imagem.originalFilename}"?`
+    );
+
+    if (!confirmou) {
+      return;
+    }
+
+    if (this.excluindoImagemId !== null) {
+      return;
+    }
+
+    this.erroExclusao = '';
+    this.sucessoExclusao = '';
+    this.excluindoImagemId = imagem.id;
+
+    this.mediaService.excluir(imagem.id).subscribe({
+      next: () => {
+        this.imagens = this.imagens.filter(
+          item => item.id !== imagem.id
+        );
+
+        this.sucessoExclusao = 'Imagem excluída com sucesso.';
+        this.excluindoImagemId = null;
+      },
+      error: (error) => {
+        console.error('Erro ao excluir imagem:', error);
+
+        if (error.status === 409) {
+          this.erroExclusao =
+            'Esta imagem está vinculada a um evento e não pode ser excluída.';
+        } else {
+          this.erroExclusao =
+            error.error?.message || 'Não foi possível excluir a imagem.';
+        }
+
+        this.excluindoImagemId = null;
+      }
+    });
+  }
+
 
 
 }
