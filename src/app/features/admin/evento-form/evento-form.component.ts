@@ -3,6 +3,9 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { MediaService } from '../../../core/services/media.service';
 import { Media } from '../../../core/models/media';
+import { AdminEventService } from '../../../core/services/admin-event.service';
+import { EventRequest } from '../../../core/models/admin-event';
+
 
 @Component({
   selector: 'app-evento-form',
@@ -13,6 +16,7 @@ import { Media } from '../../../core/models/media';
 export class EventoFormComponent implements OnInit {
 
   private readonly fb = inject(FormBuilder);
+  private readonly adminEventService = inject(AdminEventService);
   readonly mediaService = inject(MediaService);
 
   // Biblioteca de imagens
@@ -28,6 +32,10 @@ export class EventoFormComponent implements OnInit {
   erroExclusao = '';
   sucessoExclusao = '';
 
+  // Cadastro de eventos
+  salvandoEvento = false;
+  erroCadastro = '';
+  sucessoCadastro = '';
 
   // Formulário de cadastro de eventos
   eventoForm = this.fb.nonNullable.group({
@@ -40,11 +48,21 @@ export class EventoFormComponent implements OnInit {
     observacoes: [''],
     whatsappUrl: ['', Validators.maxLength(500)],
     bannerUrl: ['', Validators.maxLength(500)],
+    bannerMediaId: this.fb.control<number | null>(null),
     status: ['AGENDADO' as const, Validators.required]
+
   });
 
   ngOnInit(): void {
     this.carregarImagens();
+
+    this.eventoForm.controls.bannerUrl.valueChanges.subscribe(
+      (url: string) => {
+        if (url.trim()) {
+          this.eventoForm.controls.bannerMediaId.setValue(null);
+        }
+      }
+    );
   }
 
   private carregarImagens(): void {
@@ -158,6 +176,73 @@ export class EventoFormComponent implements OnInit {
     });
   }
 
+
+
+  selecionarImagem(imagem: Media): void {
+    const imagemSelecionadaId =
+      this.eventoForm.controls.bannerMediaId.value;
+
+    if (imagemSelecionadaId === imagem.id) {
+      this.eventoForm.patchValue({
+        bannerMediaId: null
+      });
+      return;
+    }
+
+    this.eventoForm.patchValue({
+      bannerMediaId: imagem.id,
+      bannerUrl: ''
+    });
+
+    this.erroExclusao = '';
+  }
+
+
+  salvarEvento(): void {
+    if (this.eventoForm.invalid) {
+      this.eventoForm.markAllAsTouched();
+      return;
+    }
+
+    const form = this.eventoForm.getRawValue();
+
+    const request: EventRequest = {
+      titulo: form.titulo,
+      descricao: form.descricao,
+      data: form.data,
+      horaInicio: form.horaInicio || null,
+      horaFim: form.horaFim || null,
+      local: form.local || null,
+      observacoes: form.observacoes || null,
+      whatsappUrl: form.whatsappUrl || null,
+      bannerUrl: form.bannerUrl || null,
+      bannerMediaId: form.bannerMediaId,
+      status: form.status,
+      studentIds: []
+    };
+
+    this.salvandoEvento = true;
+    this.erroCadastro = '';
+    this.sucessoCadastro = '';
+
+    this.adminEventService.criarEvento(request).subscribe({
+      next: (evento) => {
+        this.salvandoEvento = false;
+        this.sucessoCadastro = 'Evento cadastrado com sucesso!';
+
+        console.log('Evento cadastrado:', evento);
+      },
+      error: (error) => {
+        this.salvandoEvento = false;
+
+        console.error('Erro ao cadastrar evento:', error);
+
+        this.erroCadastro =
+          error.error?.message || 'Não foi possível cadastrar o evento.';
+      }
+    });
+
+  }
 
 
 }

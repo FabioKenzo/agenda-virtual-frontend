@@ -21,6 +21,7 @@ export interface AdminEvent {
     observacoes: string | null;
     whatsappUrl: string | null;
     bannerUrl: string | null;
+    bannerMediaId: number | null;
     status: EventStatus;
     createdBy: number;
     createdAt: string;
@@ -38,6 +39,7 @@ export interface EventRequest {
     observacoes: string | null;
     whatsappUrl: string | null;
     bannerUrl: string | null;
+    bannerMediaId: number | null;
     status: EventStatus;
     studentIds: number[];
 }
