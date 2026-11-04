@@ -2,10 +2,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { AdminEventService } from '../../../core/services/admin-event.service';
 import { AdminEvent } from '../../../core/models/admin-event';
 import { DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-eventos',
-  imports: [DatePipe],
+  imports: [DatePipe, RouterLink],
   templateUrl: './eventos.component.html',
   styleUrl: './eventos.component.css'
 })
