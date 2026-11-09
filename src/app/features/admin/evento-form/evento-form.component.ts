@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MediaService } from '../../../core/services/media.service';
 import { Media } from '../../../core/models/media';
 import { AdminEventService } from '../../../core/services/admin-event.service';
@@ -17,6 +17,7 @@ export class EventoFormComponent implements OnInit {
 
   private readonly fb = inject(FormBuilder);
   private readonly adminEventService = inject(AdminEventService);
+  private readonly router = inject(Router);
   readonly mediaService = inject(MediaService);
 
   // Biblioteca de imagens
@@ -36,6 +37,7 @@ export class EventoFormComponent implements OnInit {
   salvandoEvento = false;
   erroCadastro = '';
   sucessoCadastro = '';
+  exibindoSucesso = false;
 
   // Formulário de cadastro de eventos
   eventoForm = this.fb.nonNullable.group({
@@ -198,7 +200,12 @@ export class EventoFormComponent implements OnInit {
   }
 
 
+
   salvarEvento(): void {
+    if (this.salvandoEvento || this.exibindoSucesso) {
+      return;
+    }
+
     if (this.eventoForm.invalid) {
       this.eventoForm.markAllAsTouched();
       return;
@@ -226,12 +233,19 @@ export class EventoFormComponent implements OnInit {
     this.sucessoCadastro = '';
 
     this.adminEventService.criarEvento(request).subscribe({
+
       next: (evento) => {
         this.salvandoEvento = false;
+        this.exibindoSucesso = true;
         this.sucessoCadastro = 'Evento cadastrado com sucesso!';
 
         console.log('Evento cadastrado:', evento);
+
+        setTimeout(() => {
+          this.router.navigate(['/admin/eventos']);
+        }, 1500);
       },
+
       error: (error) => {
         this.salvandoEvento = false;
 
