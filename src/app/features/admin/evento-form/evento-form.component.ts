@@ -1,10 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MediaService } from '../../../core/services/media.service';
 import { Media } from '../../../core/models/media';
 import { AdminEventService } from '../../../core/services/admin-event.service';
-import { EventRequest } from '../../../core/models/admin-event';
+import { EventRequest, EventStatus } from '../../../core/models/admin-event';
+
+
 
 
 @Component({
@@ -12,6 +14,7 @@ import { EventRequest } from '../../../core/models/admin-event';
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './evento-form.component.html',
   styleUrl: './evento-form.component.css'
+
 })
 export class EventoFormComponent implements OnInit {
 
@@ -19,6 +22,15 @@ export class EventoFormComponent implements OnInit {
   private readonly adminEventService = inject(AdminEventService);
   private readonly router = inject(Router);
   readonly mediaService = inject(MediaService);
+  private readonly route = inject(ActivatedRoute);
+
+  // Controle do modo de edição
+  eventoId: number | null = null;
+  modoEdicao = false;
+  carregandoEvento = false;
+  studentIds: number[] = [];
+  eventoCarregado = false;
+
 
   // Biblioteca de imagens
   imagens: Media[] = [];
@@ -51,11 +63,34 @@ export class EventoFormComponent implements OnInit {
     whatsappUrl: ['', Validators.maxLength(500)],
     bannerUrl: ['', Validators.maxLength(500)],
     bannerMediaId: this.fb.control<number | null>(null),
-    status: ['AGENDADO' as const, Validators.required]
+
+    status: this.fb.nonNullable.control<EventStatus>(
+      'AGENDADO',
+      Validators.required
+    )
+
 
   });
 
   ngOnInit(): void {
+    const idParam = this.route.snapshot.paramMap.get('id');
+
+    if (idParam !== null) {
+      const id = Number(idParam);
+
+      if (Number.isSafeInteger(id) && id > 0) {
+        this.eventoId = id;
+        this.modoEdicao = true;
+
+        if (Number.isSafeInteger(id) && id > 0) {
+          this.eventoId = id;
+          this.modoEdicao = true;
+
+          this.carregarEvento();
+        }
+      }
+    }
+
     this.carregarImagens();
 
     this.eventoForm.controls.bannerUrl.valueChanges.subscribe(
@@ -200,9 +235,55 @@ export class EventoFormComponent implements OnInit {
   }
 
 
+  carregarEvento(): void {
+    if (this.eventoId === null) {
+      return;
+    }
+
+    this.carregandoEvento = true;
+    this.erroCadastro = '';
+
+    this.adminEventService.getEventoPorId(this.eventoId).subscribe({
+      next: (evento) => {
+        this.studentIds = evento.students.map(student => student.id);
+
+        this.eventoForm.patchValue({
+          titulo: evento.titulo,
+          descricao: evento.descricao,
+          data: evento.data,
+          horaInicio: evento.horaInicio || '',
+          horaFim: evento.horaFim || '',
+          local: evento.local || '',
+          observacoes: evento.observacoes || '',
+          whatsappUrl: evento.whatsappUrl || '',
+          bannerUrl: evento.bannerUrl || '',
+          bannerMediaId: evento.bannerMediaId,
+          status: evento.status
+        });
+
+        this.eventoCarregado = true;
+
+        this.carregandoEvento = false;
+      },
+      error: (error) => {
+        this.carregandoEvento = false;
+
+        console.error('Erro ao carregar evento:', error);
+
+        this.erroCadastro =
+          error.error?.message || 'Não foi possível carregar o evento.';
+      }
+    });
+  }
+
 
   salvarEvento(): void {
     if (this.salvandoEvento || this.exibindoSucesso) {
+      return;
+    }
+
+    if (this.modoEdicao && !this.eventoCarregado) {
+      this.erroCadastro = 'Aguarde o carregamento do evento antes de salvar.';
       return;
     }
 
@@ -225,21 +306,29 @@ export class EventoFormComponent implements OnInit {
       bannerUrl: form.bannerUrl || null,
       bannerMediaId: form.bannerMediaId,
       status: form.status,
-      studentIds: []
+      studentIds: this.studentIds
     };
 
     this.salvandoEvento = true;
     this.erroCadastro = '';
     this.sucessoCadastro = '';
 
-    this.adminEventService.criarEvento(request).subscribe({
+
+    const requisicao = this.modoEdicao && this.eventoId !== null
+      ? this.adminEventService.atualizarEvento(this.eventoId, request)
+      : this.adminEventService.criarEvento(request);
+
+    requisicao.subscribe({
 
       next: (evento) => {
         this.salvandoEvento = false;
         this.exibindoSucesso = true;
-        this.sucessoCadastro = 'Evento cadastrado com sucesso!';
 
-        console.log('Evento cadastrado:', evento);
+        this.sucessoCadastro = this.modoEdicao
+          ? 'Evento atualizado com sucesso!'
+          : 'Evento cadastrado com sucesso!';
+
+        console.log('Evento salvo:', evento);
 
         setTimeout(() => {
           this.router.navigate(['/admin/eventos']);
@@ -249,14 +338,14 @@ export class EventoFormComponent implements OnInit {
       error: (error) => {
         this.salvandoEvento = false;
 
-        console.error('Erro ao cadastrar evento:', error);
+        console.error('Erro ao salvar evento:', error);
 
-        this.erroCadastro =
-          error.error?.message || 'Não foi possível cadastrar o evento.';
+        this.erroCadastro = error.error?.message ||
+          (this.modoEdicao
+            ? 'Não foi possível atualizar o evento.'
+            : 'Não foi possível cadastrar o evento.');
       }
     });
-
+    
   }
-
-
 }

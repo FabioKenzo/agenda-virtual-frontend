@@ -54,6 +54,10 @@ export const routes: Routes = [
             {
                 path: 'eventos/novo',
                 component: EventoFormComponent
+            },
+            {
+                path: 'eventos/:id/editar',
+                component: EventoFormComponent
             }
         ]
     }

@@ -76,9 +76,11 @@
                             </td>
 
                             <td class="text-end pe-4">
-                                <button type="button" class="btn btn-sm btn-outline-primary me-2" disabled>
+
+                                <a [routerLink]="['/admin/eventos', evento.id, 'editar']"
+                                    class="btn btn-sm btn-outline-primary me-2">
                                     Editar
-                                </button>
+                                </a>
 
                                 <button type="button" class="btn btn-sm btn-outline-danger" disabled>
                                     Excluir
