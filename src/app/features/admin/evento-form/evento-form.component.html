@@ -11,7 +11,7 @@
             </div>
 
             <h5 class="fw-bold mt-3">
-                Evento cadastrado!
+                {{ modoEdicao ? 'Evento atualizado!' : 'Evento cadastrado!' }}
             </h5>
 
             <p class="text-muted mb-0">
@@ -36,10 +36,19 @@
     }
 
     <div class="mb-4">
-        <h2 class="fw-bold mb-1">Novo Evento</h2>
-        <p class="text-muted">
-            Preencha as informações para cadastrar um evento escolar.
+
+        <h2 class="fw-bold mb-1">
+            {{ modoEdicao ? 'Editar Evento' : 'Novo Evento' }}
+        </h2>
+
+        <p class="text-muted mb-0">
+            {{
+            modoEdicao
+            ? 'Atualize as informações do evento escolar.'
+            : 'Preencha as informações para cadastrar um evento escolar.'
+            }}
         </p>
+
     </div>
 
     <div class="card border-0 shadow-sm">
@@ -325,15 +334,15 @@
                         Cancelar
                     </a>
 
-                    <button type="button" class="btn btn-primary" [disabled]="eventoForm.invalid || salvandoEvento"
+                    <button type="button" class="btn btn-primary"
+                        [disabled]="eventoForm.invalid || salvandoEvento || exibindoSucesso || carregandoEvento"
                         (click)="salvarEvento()">
 
                         @if (salvandoEvento) {
                         Salvando...
                         } @else {
-                        Salvar Evento
+                        {{ modoEdicao ? 'Salvar Alterações' : 'Salvar Evento' }}
                         }
-
                     </button>
 
                 </div>

@@ -19,6 +19,17 @@ export class AdminEventService {
     });
   }
 
+
+  getEventoPorId(id: number): Observable<AdminEvent> {
+    return this.http.get<AdminEvent>(
+      `${this.apiUrl}/${id}`,
+      {
+        withCredentials: true
+      }
+    );
+  }
+
+
   criarEvento(request: EventRequest): Observable<AdminEvent> {
     return this.http.post<AdminEvent>(
       this.apiUrl,
@@ -28,4 +39,19 @@ export class AdminEventService {
       }
     );
   }
+
+
+  atualizarEvento(
+    id: number,
+    request: EventRequest
+  ): Observable<AdminEvent> {
+    return this.http.put<AdminEvent>(
+      `${this.apiUrl}/${id}`,
+      request,
+      {
+        withCredentials: true
+      }
+    );
+  }
+
 }
