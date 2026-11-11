@@ -17,6 +17,10 @@ export class EventosComponent implements OnInit {
   eventos: AdminEvent[] = [];
   carregando = true;
   erro = '';
+  eventoParaExcluir: AdminEvent | null = null;
+  excluindoEvento = false;
+  erroExclusao = '';
+  sucessoExclusao = '';
 
   ngOnInit(): void {
     this.carregarEventos();
@@ -41,4 +45,55 @@ export class EventosComponent implements OnInit {
       }
     });
   }
+
+  abrirModalExclusao(evento: AdminEvent): void {
+    this.eventoParaExcluir = evento;
+    this.erroExclusao = '';
+    this.sucessoExclusao = '';
+  }
+
+  fecharModalExclusao(): void {
+    if (this.excluindoEvento) {
+      return;
+    }
+
+    this.eventoParaExcluir = null;
+    this.erroExclusao = '';
+  }
+
+
+  confirmarExclusao(): void {
+    if (!this.eventoParaExcluir || this.excluindoEvento) {
+      return;
+    }
+
+    const eventoId = this.eventoParaExcluir.id;
+
+    this.excluindoEvento = true;
+    this.erroExclusao = '';
+
+    this.adminEventService.excluirEvento(eventoId).subscribe({
+      next: () => {
+        this.eventos = this.eventos.filter(
+          evento => evento.id !== eventoId
+        );
+
+        this.excluindoEvento = false;
+        this.eventoParaExcluir = null;
+        this.sucessoExclusao = 'Evento excluído com sucesso!';
+
+        console.log('Evento excluído com sucesso:', eventoId);
+      },
+      error: (error) => {
+        console.error('Erro ao excluir evento:', error);
+
+        this.erroExclusao =
+          error.error?.message ||
+          'Não foi possível excluir o evento. Tente novamente.';
+
+        this.excluindoEvento = false;
+      }
+    });
+  }
+
 }
