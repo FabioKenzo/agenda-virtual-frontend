@@ -1,0 +1,297 @@
+:host {
+    display: block;
+    min-height: 100vh;
+    background-color: #f8fafc;
+    color: #071b49;
+}
+
+.eventos-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 36px 24px 64px;
+}
+
+/* Cabeçalho */
+
+.pagina-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.pagina-header h1 {
+    margin: 0 0 8px;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.pagina-header p {
+    margin: 0;
+    color: #64748b;
+}
+
+.pagina-header>i {
+    color: #e07820;
+    font-size: 2rem;
+}
+
+/* Contagem */
+
+.total-eventos {
+    margin-bottom: 20px;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+/* Grid de eventos */
+
+.eventos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.evento-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 12px;
+}
+
+.evento-card {
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background-color: #fff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.evento-link:hover .evento-card {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(7, 27, 73, 0.1);
+}
+
+.evento-link:focus-visible {
+    outline: 2px solid #175cd3;
+    outline-offset: 4px;
+}
+
+/* Banner */
+
+.evento-banner {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: center;
+}
+
+.evento-sem-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #edf4ff;
+    color: #7895c5;
+    font-size: 3rem;
+}
+
+/* Conteúdo */
+
+.evento-conteudo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 20px;
+}
+
+.evento-titulo {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.evento-descricao {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+    margin: 0;
+    color: #475569;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* Informações */
+
+.evento-informacoes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    font-size: 0.85rem;
+}
+
+.evento-informacoes span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.evento-informacoes i {
+    flex-shrink: 0;
+    width: 18px;
+    color: #175cd3;
+    font-size: 1rem;
+    text-align: center;
+}
+
+/* Status */
+
+.evento-status {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-agendado {
+    background-color: #e8f1ff;
+    color: #175cd3;
+}
+
+.status-finalizado {
+    background-color: #dcfae6;
+    color: #067647;
+}
+
+.status-cancelado {
+    background-color: #fee4e2;
+    color: #b42318;
+}
+
+/* Paginação */
+
+.paginacao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.pagina-indicador {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Estados */
+
+.estado-mensagem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    min-height: 280px;
+    text-align: center;
+}
+
+.estado-mensagem>i {
+    font-size: 2.5rem;
+    color: #7895c5;
+}
+
+.estado-mensagem p {
+    margin: 0;
+    color: #64748b;
+}
+
+/* Responsividade */
+
+@media (max-width: 992px) {
+    .eventos-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .eventos-container {
+        padding: 24px 16px 48px;
+    }
+
+    .pagina-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .pagina-header>i {
+        font-size: 1.5rem;
+    }
+
+    .eventos-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .paginacao {
+        gap: 12px;
+    }
+
+    .paginacao .btn {
+        font-size: 0.85rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .evento-card {
+        transition: none;
+    }
+
+    .evento-link:hover .evento-card {
+        transform: none;
+    }
+
+    /* Navegação de retorno */
+
+    .voltar-inicio {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        margin-bottom: 16px;
+
+        color: var(--color-blue);
+        font-family: var(--font-body);
+        font-size: 0.9rem;
+        font-weight: 600;
+
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .voltar-inicio:hover {
+        color: var(--color-dark-blue);
+        text-decoration: underline;
+    }
+
+    .voltar-inicio:focus-visible {
+        outline: 2px solid var(--color-blue);
+        outline-offset: 4px;
+        border-radius: 4px;
+    }
+
+}

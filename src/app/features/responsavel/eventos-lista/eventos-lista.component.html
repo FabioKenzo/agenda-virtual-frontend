@@ -1,0 +1,118 @@
+<div class="eventos-container">
+
+    <header class="pagina-header">
+        <div>
+            <a routerLink="/responsavel" class="voltar-inicio">
+                <i class="bi bi-arrow-left"></i>
+                Voltar ao início
+            </a>
+
+            <h1>Eventos</h1>
+
+            <p>
+                Fique por dentro dos próximos eventos e atividades escolares.
+            </p>
+        </div>
+
+        <i class="bi bi-calendar-event"></i>
+    </header>
+
+
+    @if (carregando) {
+    <div class="estado-mensagem" role="status">
+        <div class="spinner-border text-primary" aria-hidden="true"></div>
+        <p>Carregando eventos...</p>
+    </div>
+    } @else if (erro) {
+    <div class="estado-mensagem" role="alert">
+        <i class="bi bi-exclamation-circle"></i>
+        <p>Não foi possível carregar os eventos.</p>
+        <button type="button" class="btn btn-primary" (click)="carregarEventos(paginaAtual)">
+            Tentar novamente
+        </button>
+    </div>
+    } @else if (eventos.length === 0) {
+    <div class="estado-mensagem">
+        <i class="bi bi-calendar-x"></i>
+        <p>Nenhum evento encontrado.</p>
+    </div>
+    } @else {
+
+    <p class="total-eventos">
+        {{ totalEventos }}
+        {{ totalEventos === 1 ? 'evento encontrado' : 'eventos encontrados' }}
+    </p>
+
+    <div class="eventos-grid">
+        @for (evento of eventos; track evento.id) {
+        <a class="evento-link" [routerLink]="['/responsavel/eventos', evento.id]">
+
+            <article class="evento-card">
+
+                @if (evento.bannerUrl) {
+                <img class="evento-banner" [src]="evento.bannerUrl" [alt]="'Banner do evento ' + evento.titulo">
+                } @else {
+                <div class="evento-sem-banner">
+                    <i class="bi bi-calendar-event"></i>
+                </div>
+                }
+
+                <div class="evento-conteudo">
+                    <h2 class="evento-titulo">{{ evento.titulo }}</h2>
+
+                    <p class="evento-descricao">
+                        {{ evento.descricao }}
+                    </p>
+
+                    <div class="evento-informacoes">
+                        <span>
+                            <i class="bi bi-calendar3"></i>
+                            {{ evento.data | date:'dd/MM/yyyy' }}
+                        </span>
+
+                        <span>
+                            <i class="bi bi-clock"></i>
+                            {{ evento.horaInicio }} - {{ evento.horaFim }}
+                        </span>
+
+                        <span>
+                            <i class="bi bi-geo-alt"></i>
+                            {{ evento.local }}
+                        </span>
+                    </div>
+
+                    @if (evento.status) {
+                    <span class="evento-status" [class.status-agendado]="evento.status === 'AGENDADO'"
+                        [class.status-finalizado]="evento.status === 'FINALIZADO'"
+                        [class.status-cancelado]="evento.status === 'CANCELADO'">
+                        {{ evento.status }}
+                    </span>
+                    }
+                </div>
+
+            </article>
+        </a>
+        }
+    </div>
+
+    @if (totalPaginas > 1) {
+    <nav class="paginacao" aria-label="Paginação de eventos">
+        <button type="button" class="btn btn-outline-primary" [disabled]="paginaAtual === 0 || carregando"
+            (click)="paginaAnterior()">
+            <i class="bi bi-chevron-left"></i>
+            Anterior
+        </button>
+
+        <span class="pagina-indicador">
+            Página {{ paginaAtual + 1 }} de {{ totalPaginas }}
+        </span>
+
+        <button type="button" class="btn btn-outline-primary" [disabled]="paginaAtual >= totalPaginas - 1 || carregando"
+            (click)="proximaPagina()">
+            Próxima
+            <i class="bi bi-chevron-right"></i>
+        </button>
+    </nav>
+    }
+    }
+</div>

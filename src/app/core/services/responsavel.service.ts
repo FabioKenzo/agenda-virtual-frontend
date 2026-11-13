@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Evento } from '../models/evento';
 import { Comunicado } from '../models/comunicado';
+import { Pagina } from '../models/pagina';
 
 
 @Injectable({
@@ -20,6 +21,22 @@ export class ResponsavelService {
 
   getEventos(): Observable<Evento[]> {
     return this.http.get<Evento[]>(`${this.apiUrl}/responsavel/eventos`);
+  }
+
+  getEventosPaginados(
+    page: number = 0,
+    size: number = 9
+  ): Observable<Pagina<Evento>> {
+
+    return this.http.get<Pagina<Evento>>(
+      `${this.apiUrl}/responsavel/eventos/paginados`,
+      {
+        params: {
+          page: page.toString(),
+          size: size.toString()
+        }
+      }
+    );
   }
 
   getEventoPorId(id: number): Observable<Evento> {
