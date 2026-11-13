@@ -173,7 +173,9 @@
                                 </div>
 
                                 @if (evento.status) {
-                                <span class="evento-status">
+                                <span class="evento-status" [class.status-agendado]="evento.status === 'AGENDADO'"
+                                    [class.status-concluido]="evento.status === 'FINALIZADO'"
+                                    [class.status-cancelado]="evento.status === 'CANCELADO'">
                                     {{ evento.status }}
                                 </span>
                                 }
