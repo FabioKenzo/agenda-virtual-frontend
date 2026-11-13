@@ -1,68 +1,9 @@
 <div class="home-page">
 
-    <!-- Header -->
-    <header class="home-header">
-        <div class="container header-content">
-
-            <div class="header-brand">
-                <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#responsavelMenu"
-                    aria-controls="responsavelMenu" aria-label="Abrir menu">
-                    <i class="bi bi-list"></i>
-                </button>
-
-                <h1>Agenda Virtual</h1>
-            </div>
-
-            <button class="btn-logout" type="button" (click)="onLogout()">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sair</span>
-            </button>
-
-        </div>
-    </header>
-
-    <!-- Menu lateral -->
-    <div class="offcanvas offcanvas-start responsavel-menu" tabindex="-1" id="responsavelMenu"
-        aria-labelledby="responsavelMenuLabel">
-
-        <div class="offcanvas-header">
-            <h2 id="responsavelMenuLabel">Agenda Virtual</h2>
-
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
-        </div>
-
-        <div class="offcanvas-body">
-
-            <nav class="menu-navigation">
-
-                <a class="menu-item active" href="#">
-                    <i class="bi bi-house-door"></i>
-                    <span>Início</span>
-                </a>
-
-                <a class="menu-item" href="#">
-                    <i class="bi bi-calendar-event"></i>
-                    <span>Eventos</span>
-                </a>
-
-                <a class="menu-item" href="#">
-                    <i class="bi bi-megaphone"></i>
-                    <span>Comunicados</span>
-                </a>
-
-                <a class="menu-item" href="#">
-                    <i class="bi bi-people"></i>
-                    <span>Meus alunos</span>
-                </a>
-
-            </nav>
-
-        </div>
-    </div>
-
     <!-- Conteúdo principal -->
-    <main class="container home-content">
+    <div class="container home-content">
 
+        <!-- Boas-vindas -->
         <section class="welcome-section">
             <p class="welcome-label">Bem-vindo(a) à</p>
 
@@ -144,6 +85,7 @@
                                     </p>
 
                                     @if (evento.horaInicio) {
+
                                     <p>
                                         <i class="bi bi-clock"></i>
                                         <span>
@@ -154,30 +96,37 @@
                                             }
                                         </span>
                                     </p>
+
                                     } @else if (evento.horaFim) {
+
                                     <p>
                                         <i class="bi bi-clock"></i>
                                         <span>
                                             Até {{ evento.horaFim.slice(0, 5) }}
                                         </span>
                                     </p>
+
                                     }
 
                                     @if (evento.local) {
+
                                     <p>
                                         <i class="bi bi-geo-alt"></i>
                                         <span>{{ evento.local }}</span>
                                     </p>
+
                                     }
 
                                 </div>
 
                                 @if (evento.status) {
+
                                 <span class="evento-status" [class.status-agendado]="evento.status === 'AGENDADO'"
-                                    [class.status-concluido]="evento.status === 'FINALIZADO'"
+                                    [class.status-finalizado]="evento.status === 'FINALIZADO'"
                                     [class.status-cancelado]="evento.status === 'CANCELADO'">
                                     {{ evento.status }}
                                 </span>
+
                                 }
 
                             </div>
@@ -257,7 +206,7 @@
                                     <i class="bi bi-calendar-event"></i>
 
                                     <span>
-                                        {{ comunicado.createdAt | date:'dd/MM/yyyy \'às\' HH:mm' }}
+                                        {{ comunicado.createdAt | date:"dd/MM/yyyy 'às' HH:mm" }}
                                     </span>
                                 </div>
 
@@ -277,6 +226,6 @@
 
         </section>
 
-    </main>
+    </div>
 
 </div>

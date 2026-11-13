@@ -1,0 +1,67 @@
+<div class="responsavel-page">
+
+    <!-- Cabeçalho compartilhado -->
+    <header class="home-header">
+        <div class="container header-content">
+
+            <div class="header-brand">
+                <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#responsavelMenu"
+                    aria-controls="responsavelMenu" aria-label="Abrir menu">
+                    <i class="bi bi-list"></i>
+                </button>
+
+                <h1>Agenda Virtual</h1>
+            </div>
+
+            <button class="btn-logout" type="button" (click)="onLogout()">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sair</span>
+            </button>
+
+        </div>
+    </header>
+
+    <!-- Menu lateral compartilhado -->
+    <div class="offcanvas offcanvas-start responsavel-menu" tabindex="-1" id="responsavelMenu"
+        aria-labelledby="responsavelMenuLabel">
+
+        <div class="offcanvas-header">
+            <h2 id="responsavelMenuLabel">Agenda Virtual</h2>
+
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar">
+            </button>
+        </div>
+
+        <div class="offcanvas-body">
+            <nav class="menu-navigation" aria-label="Navegação do responsável">
+
+                <a class="menu-item" routerLink="/responsavel" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }" data-bs-dismiss="offcanvas">
+                    <i class="bi bi-house-door"></i>
+                    <span>Início</span>
+                </a>
+
+                <a class="menu-item" routerLink="/responsavel/eventos" routerLinkActive="active"
+                    data-bs-dismiss="offcanvas">
+                    <i class="bi bi-calendar-event"></i>
+                    <span>Eventos</span>
+                </a>
+
+            </nav>
+        </div>
+    </div>
+
+    <!-- Conteúdo da rota atual -->
+    <main class="responsavel-content">
+        <router-outlet></router-outlet>
+    </main>
+
+    <!-- WhatsApp flutuante -->
+    <a href="#" class="whatsapp-flutuante" aria-label="Entrar em contato com a escola pelo WhatsApp"
+        title="Fale com a escola pelo WhatsApp" (click)="$event.preventDefault()">
+
+        <i class="bi bi-whatsapp"></i>
+
+    </a>
+
+</div>
