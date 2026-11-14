@@ -1,0 +1,106 @@
+<div class="comunicados-container">
+
+    <header class="pagina-header">
+        <div>
+            <a routerLink="/responsavel" class="voltar-inicio">
+                <i class="bi bi-arrow-left"></i>
+                Voltar ao início
+            </a>
+
+            <h1>Comunicados</h1>
+
+            <p>
+                Acompanhe os avisos e informações importantes da escola.
+            </p>
+        </div>
+
+        <i class="bi bi-megaphone"></i>
+    </header>
+
+    @if (carregando) {
+    <div class="estado-mensagem" role="status">
+        <div class="spinner-border text-primary" aria-hidden="true"></div>
+        <p>Carregando comunicados...</p>
+    </div>
+    } @else if (erro) {
+    <div class="estado-mensagem" role="alert">
+        <i class="bi bi-exclamation-circle"></i>
+        <p>Não foi possível carregar os comunicados.</p>
+        <button type="button" class="btn btn-primary" (click)="carregarComunicados(paginaAtual)">
+            Tentar novamente
+        </button>
+    </div>
+    } @else if (comunicados.length === 0) {
+    <div class="estado-mensagem">
+        <i class="bi bi-inbox"></i>
+        <p>Nenhum comunicado encontrado.</p>
+    </div>
+    } @else {
+
+    <p class="total-comunicados">
+        {{ totalComunicados }}
+        {{ totalComunicados === 1 ? 'comunicado encontrado' : 'comunicados encontrados' }}
+    </p>
+
+    <div class="comunicados-grid">
+        @for (comunicado of comunicados; track comunicado.id) {
+        <a class="comunicado-link" [routerLink]="['/responsavel/comunicados', comunicado.id]">
+
+            <article class="comunicado-card">
+
+                <div class="comunicado-icone">
+                    <i class="bi bi-megaphone"></i>
+                </div>
+
+                <div class="comunicado-conteudo">
+
+                    <h2 class="comunicado-titulo">
+                        {{ comunicado.titulo }}
+                    </h2>
+
+                    <p class="comunicado-descricao">
+                        {{ comunicado.conteudo }}
+                    </p>
+
+                    <div class="comunicado-rodape">
+                        <span class="comunicado-data">
+                            <i class="bi bi-calendar3"></i>
+                            {{ comunicado.createdAt | date:'dd/MM/yyyy' }}
+                        </span>
+
+                        <span class="comunicado-ler">
+                            Ler comunicado
+                            <i class="bi bi-arrow-right"></i>
+                        </span>
+                    </div>
+
+                </div>
+
+            </article>
+        </a>
+        }
+    </div>
+
+    @if (totalPaginas > 1) {
+    <nav class="paginacao" aria-label="Paginação de comunicados">
+
+        <button type="button" class="btn btn-outline-primary" [disabled]="paginaAtual === 0 || carregando"
+            (click)="paginaAnterior()">
+            <i class="bi bi-chevron-left"></i>
+            Anterior
+        </button>
+
+        <span class="pagina-indicador">
+            Página {{ paginaAtual + 1 }} de {{ totalPaginas }}
+        </span>
+
+        <button type="button" class="btn btn-outline-primary" [disabled]="paginaAtual >= totalPaginas - 1 || carregando"
+            (click)="proximaPagina()">
+            Próxima
+            <i class="bi bi-chevron-right"></i>
+        </button>
+
+    </nav>
+    }
+    }
+</div>

@@ -9,6 +9,7 @@ import { DashboardComponent } from './features/admin/dashboard/dashboard.compone
 import { AdminLayoutComponent } from './features/admin/layout/admin-layout/admin-layout.component';
 import { EventosComponent } from './features/admin/eventos/eventos.component';
 import { EventoFormComponent } from './features/admin/evento-form/evento-form.component';
+import { ComunicadosListaComponent } from './features/responsavel/comunicados-lista/comunicados-lista.component';
 
 // Guards
 import { roleGuard } from './core/guards/role.guard';
@@ -27,22 +28,11 @@ export const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ['RESPONSAVEL'] },
         children: [
-            {
-                path: '',
-                component: HomeComponent
-            },
-            {
-                path: 'eventos',
-                component: EventosListaComponent
-            },
-            {
-                path: 'eventos/:id',
-                component: EventoDetalheComponent
-            },
-            {
-                path: 'comunicados/:id',
-                component: ComunicadoDetalheComponent
-            }
+            { path: '', component: HomeComponent },
+            { path: 'eventos', component: EventosListaComponent },
+            { path: 'eventos/:id', component: EventoDetalheComponent },
+            { path: 'comunicados', component: ComunicadosListaComponent },
+            { path: 'comunicados/:id', component: ComunicadoDetalheComponent }
         ]
     },
 

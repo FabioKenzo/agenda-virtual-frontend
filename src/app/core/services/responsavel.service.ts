@@ -51,6 +51,21 @@ export class ResponsavelService {
     );
   }
 
+  getComunicadosPaginados(
+    page: number = 0,
+    size: number = 9
+  ): Observable<Pagina<Comunicado>> {
+
+    return this.http.get<Pagina<Comunicado>>(
+      `${this.apiUrl}/responsavel/comunicados/paginados`,
+      {
+        params: {
+          page: page.toString(),
+          size: size.toString()
+        }
+      }
+    );
+  }
 
   getComunicadoPorId(id: number): Observable<Comunicado> {
     return this.http.get<Comunicado>(
