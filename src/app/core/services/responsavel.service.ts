@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { Evento } from '../models/evento';
 import { Comunicado } from '../models/comunicado';
 import { Pagina } from '../models/pagina';
+import { PerfilResponsavel } from '../models/perfil-responsavel';
+import { AlunoResponsavel } from '../models/aluno-responsavel';
 
 
 @Injectable({
@@ -15,8 +17,16 @@ export class ResponsavelService {
 
   constructor(private http: HttpClient) { }
 
-  getAlunos(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/responsavel/alunos`);
+  getAlunos(): Observable<AlunoResponsavel[]> {
+    return this.http.get<AlunoResponsavel[]>(
+      `${this.apiUrl}/responsavel/alunos`
+    );
+  }
+
+  getPerfil(): Observable<PerfilResponsavel> {
+    return this.http.get<PerfilResponsavel>(
+      `${this.apiUrl}/responsavel/perfil`
+    );
   }
 
   getEventos(): Observable<Evento[]> {

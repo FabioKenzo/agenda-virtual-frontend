@@ -1,0 +1,134 @@
+<div class="perfil-container">
+
+    <header class="pagina-header">
+        <div>
+            <h1>Meu Perfil</h1>
+            <p>Consulte seus dados e os alunos vinculados à sua conta.</p>
+        </div>
+        <i class="bi bi-person-circle"></i>
+    </header>
+
+    @if (carregando) {
+    <div class="estado-mensagem" role="status">
+        <div class="spinner-border text-primary" aria-hidden="true"></div>
+        <p>Carregando informações do perfil...</p>
+    </div>
+    } @else if (erro) {
+    <div class="estado-mensagem" role="alert">
+        <i class="bi bi-exclamation-circle"></i>
+        <p>Não foi possível carregar as informações do perfil.</p>
+
+        <button type="button" class="btn btn-primary" (click)="carregarDados()">
+            Tentar novamente
+        </button>
+    </div>
+    } @else if (perfil) {
+
+    <section class="perfil-secao" aria-labelledby="dados-titulo">
+
+        <div class="secao-cabecalho">
+            <i class="bi bi-person-vcard"></i>
+            <h2 id="dados-titulo">Meus Dados</h2>
+        </div>
+
+        <div class="perfil-card">
+
+            <div class="perfil-identidade">
+                <div class="perfil-avatar">
+                    <i class="bi bi-person"></i>
+                </div>
+
+                <div>
+                    <h3>{{ perfil.nome }}</h3>
+                    <span class="perfil-tipo">Responsável</span>
+                </div>
+            </div>
+
+            <div class="perfil-informacoes">
+
+                <div class="informacao-item">
+                    <span class="informacao-label">
+                        <i class="bi bi-envelope"></i>
+                        E-mail
+                    </span>
+                    <span class="informacao-valor">{{ perfil.email }}</span>
+                </div>
+
+                <div class="informacao-item">
+                    <span class="informacao-label">
+                        <i class="bi bi-telephone"></i>
+                        Telefone
+                    </span>
+                    <span class="informacao-valor">
+                        {{ perfil.telefone || 'Não informado' }}
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <section class="perfil-secao" aria-labelledby="alunos-titulo">
+
+        <div class="secao-cabecalho">
+            <i class="bi bi-mortarboard"></i>
+            <h2 id="alunos-titulo">Meus Alunos</h2>
+            <span class="alunos-contador">{{ alunos.length }}</span>
+        </div>
+
+        @if (alunos.length === 0) {
+
+        <div class="estado-mensagem">
+            <i class="bi bi-people"></i>
+            <p>Nenhum aluno vinculado à sua conta.</p>
+        </div>
+
+        } @else {
+
+        <div class="alunos-grid">
+
+            @for (aluno of alunos; track aluno.id) {
+
+            <article class="aluno-card">
+
+                <div class="aluno-icone">
+                    <i class="bi bi-person-badge"></i>
+                </div>
+
+                <div class="aluno-conteudo">
+
+                    <h3>{{ aluno.nome }}</h3>
+
+                    <div class="aluno-informacao">
+                        <i class="bi bi-book"></i>
+                        <span>
+                            Turma: {{ aluno.turma || 'Não informada' }}
+                        </span>
+                    </div>
+
+                    <div class="aluno-informacao">
+                        <i class="bi bi-calendar3"></i>
+                        <span>
+                            Nascimento:
+                            {{ aluno.dataNascimento
+                            ? (aluno.dataNascimento | date:'dd/MM/yyyy':'UTC')
+                            : 'Não informado' }}
+                        </span>
+                    </div>
+
+                </div>
+
+            </article>
+
+            }
+
+        </div>
+
+        }
+
+    </section>
+
+    }
+
+</div>

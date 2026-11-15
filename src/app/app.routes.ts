@@ -10,6 +10,7 @@ import { AdminLayoutComponent } from './features/admin/layout/admin-layout/admin
 import { EventosComponent } from './features/admin/eventos/eventos.component';
 import { EventoFormComponent } from './features/admin/evento-form/evento-form.component';
 import { ComunicadosListaComponent } from './features/responsavel/comunicados-lista/comunicados-lista.component';
+import { PerfilComponent } from './features/responsavel/perfil/perfil.component';
 
 // Guards
 import { roleGuard } from './core/guards/role.guard';
@@ -32,7 +33,8 @@ export const routes: Routes = [
             { path: 'eventos', component: EventosListaComponent },
             { path: 'eventos/:id', component: EventoDetalheComponent },
             { path: 'comunicados', component: ComunicadosListaComponent },
-            { path: 'comunicados/:id', component: ComunicadoDetalheComponent }
+            { path: 'comunicados/:id', component: ComunicadoDetalheComponent },
+            { path: 'perfil', component: PerfilComponent }
         ]
     },
 
