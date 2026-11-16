@@ -301,6 +301,60 @@
 
                 </div>
 
+                <!-- Público do evento -->
+                <div class="mb-4">
+                    <h5 class="fw-semibold mb-3">Público do evento *</h5>
+
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" id="publicoTodos" formControlName="paraTodos"
+                            [value]="true">
+
+                        <label class="form-check-label" for="publicoTodos">
+                            Todos os responsáveis
+                        </label>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="radio" id="publicoTurmas" formControlName="paraTodos"
+                            [value]="false">
+
+                        <label class="form-check-label" for="publicoTurmas">
+                            Turmas específicas
+                        </label>
+                    </div>
+
+                    @if (eventoForm.controls.paraTodos.value === false) {
+                    <div class="border rounded p-3 bg-light">
+                        <label class="form-label fw-semibold">
+                            Selecione as turmas *
+                        </label>
+
+                        <div class="row g-2">
+                            @for (turma of turmasDisponiveis; track turma) {
+                            <div class="col-6 col-md-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" [id]="'turma-' + turma"
+                                        [checked]="eventoForm.controls.turmas.value.includes(turma)"
+                                        (change)="alternarTurma(turma, $event)">
+
+                                    <label class="form-check-label" [for]="'turma-' + turma">
+                                        {{ turma }}
+                                    </label>
+                                </div>
+                            </div>
+                            }
+                        </div>
+
+                        @if (eventoForm.controls.turmas.value.length === 0) {
+                        <small class="text-danger d-block mt-2">
+                            Selecione pelo menos uma turma.
+                        </small>
+                        }
+                    </div>
+                    }
+                </div>
+
+
                 <!-- Status -->
                 <div class="mb-4">
                     <label for="status" class="form-label fw-semibold">

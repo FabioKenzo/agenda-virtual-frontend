@@ -23,6 +23,11 @@ export interface AdminEvent {
     bannerUrl: string | null;
     bannerMediaId: number | null;
     status: EventStatus;
+
+    // Visibilidade do evento
+    paraTodos: boolean;
+    turmas: string[];
+
     createdBy: number;
     createdAt: string;
     updatedAt: string;
@@ -42,4 +47,8 @@ export interface EventRequest {
     bannerMediaId: number | null;
     status: EventStatus;
     studentIds: number[];
+
+    // Visibilidade do evento
+    paraTodos: boolean;
+    turmas: string[];
 }

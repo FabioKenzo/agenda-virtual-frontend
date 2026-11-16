@@ -7,8 +7,6 @@ import { AdminEventService } from '../../../core/services/admin-event.service';
 import { EventRequest, EventStatus } from '../../../core/models/admin-event';
 
 
-
-
 @Component({
   selector: 'app-evento-form',
   imports: [ReactiveFormsModule, RouterLink],
@@ -17,6 +15,24 @@ import { EventRequest, EventStatus } from '../../../core/models/admin-event';
 
 })
 export class EventoFormComponent implements OnInit {
+
+  readonly turmasPadrao = [
+    'G1',
+    'G2A',
+    'G2B',
+    'G2C',
+    'G3A',
+    'G3B',
+    'G4',
+    'G5'
+  ];
+
+  get turmasDisponiveis(): string[] {
+    return [...new Set([
+      ...this.turmasPadrao,
+      ...this.eventoForm.controls.turmas.value
+    ])];
+  }
 
   private readonly fb = inject(FormBuilder);
   private readonly adminEventService = inject(AdminEventService);
@@ -64,10 +80,19 @@ export class EventoFormComponent implements OnInit {
     bannerUrl: ['', Validators.maxLength(500)],
     bannerMediaId: this.fb.control<number | null>(null),
 
+    paraTodos: this.fb.nonNullable.control<boolean>(
+      true,
+      Validators.required
+    ),
+
+    turmas: this.fb.nonNullable.control<string[]>([]),
+
     status: this.fb.nonNullable.control<EventStatus>(
       'AGENDADO',
       Validators.required
     )
+
+
 
 
   });
@@ -234,6 +259,20 @@ export class EventoFormComponent implements OnInit {
     this.erroExclusao = '';
   }
 
+  alternarTurma(turma: string, event: Event): void {
+    const marcado = (event.target as HTMLInputElement).checked;
+    const control = this.eventoForm.controls.turmas;
+    const selecionadas = control.value;
+
+    control.setValue(
+      marcado
+        ? [...new Set([...selecionadas, turma])]
+        : selecionadas.filter(item => item !== turma)
+    );
+
+    control.markAsTouched();
+  }
+
 
   carregarEvento(): void {
     if (this.eventoId === null) {
@@ -258,6 +297,8 @@ export class EventoFormComponent implements OnInit {
           whatsappUrl: evento.whatsappUrl || '',
           bannerUrl: evento.bannerUrl || '',
           bannerMediaId: evento.bannerMediaId,
+          paraTodos: evento.paraTodos,
+          turmas: evento.turmas ?? [],
           status: evento.status
         });
 
@@ -294,6 +335,12 @@ export class EventoFormComponent implements OnInit {
 
     const form = this.eventoForm.getRawValue();
 
+    if (!form.paraTodos && form.turmas.length === 0) {
+      this.erroCadastro =
+        'Selecione pelo menos uma turma para este evento.';
+      return;
+    }
+
     const request: EventRequest = {
       titulo: form.titulo,
       descricao: form.descricao,
@@ -306,7 +353,9 @@ export class EventoFormComponent implements OnInit {
       bannerUrl: form.bannerUrl || null,
       bannerMediaId: form.bannerMediaId,
       status: form.status,
-      studentIds: this.studentIds
+      studentIds: this.studentIds,
+      paraTodos: form.paraTodos,
+      turmas: form.paraTodos ? [] : form.turmas
     };
 
     this.salvandoEvento = true;
@@ -346,6 +395,8 @@ export class EventoFormComponent implements OnInit {
             : 'Não foi possível cadastrar o evento.');
       }
     });
-    
+
+
+
   }
 }
