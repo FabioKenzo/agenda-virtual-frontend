@@ -10,32 +10,46 @@
 <!-- CARDS DE GERENCIAMENTO -->
 <section class="row g-3">
 
+    <!-- EVENTOS -->
     <div class="col-md-6 col-xl-4">
         <div class="card border-0 shadow-sm h-100">
-            <div class="card-body p-4">
+            <div class="card-body p-4 d-flex flex-column">
                 <h5 class="fw-semibold">Eventos</h5>
-                <p class="text-secondary mb-0">
+
+                <p class="text-secondary">
                     Gerencie os eventos escolares.
                 </p>
+
+                <a routerLink="/admin/eventos" class="btn btn-primary mt-auto align-self-start">
+                    Gerenciar Eventos
+                </a>
             </div>
         </div>
     </div>
 
+    <!-- COMUNICADOS -->
     <div class="col-md-6 col-xl-4">
         <div class="card border-0 shadow-sm h-100">
-            <div class="card-body p-4">
+            <div class="card-body p-4 d-flex flex-column">
                 <h5 class="fw-semibold">Comunicados</h5>
-                <p class="text-secondary mb-0">
+
+                <p class="text-secondary">
                     Publique comunicados para os responsáveis.
                 </p>
+
+                <a routerLink="/admin/comunicados" class="btn btn-primary mt-auto align-self-start">
+                    Gerenciar Comunicados
+                </a>
             </div>
         </div>
     </div>
 
+    <!-- ALUNOS -->
     <div class="col-md-6 col-xl-4">
         <div class="card border-0 shadow-sm h-100">
             <div class="card-body p-4">
                 <h5 class="fw-semibold">Alunos</h5>
+
                 <p class="text-secondary mb-0">
                     Consulte os alunos cadastrados.
                 </p>

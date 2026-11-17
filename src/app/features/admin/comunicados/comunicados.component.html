@@ -1,0 +1,188 @@
+<div class="container-fluid">
+
+    <!-- Cabeçalho -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Gerenciamento de Comunicados</h2>
+            <p class="text-muted mb-0">
+                Visualize e gerencie os comunicados cadastrados na escola.
+            </p>
+        </div>
+
+        <a routerLink="/admin/comunicados/novo" class="btn btn-primary">
+            + Novo Comunicado
+        </a>
+    </div>
+
+    <!-- Mensagem de sucesso -->
+    @if (sucessoExclusao) {
+    <div class="alert alert-success" role="status">
+        {{ sucessoExclusao }}
+    </div>
+    }
+
+    <!-- Carregamento -->
+    @if (carregando) {
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="text-muted mt-3">Carregando comunicados...</p>
+    </div>
+
+    } @else if (erro) {
+
+    <!-- Erro ao carregar -->
+    <div class="alert alert-danger" role="alert">
+        {{ erro }}
+    </div>
+
+    } @else if (comunicados.length === 0) {
+
+    <!-- Lista vazia -->
+    <div class="alert alert-info" role="status">
+        Nenhum comunicado cadastrado.
+    </div>
+
+    } @else {
+
+    <!-- Tabela -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">Comunicado</th>
+                            <th>Data de criação</th>
+                            <th>Status</th>
+                            <th class="text-end pe-4">Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @for (comunicado of comunicados; track comunicado.id) {
+                        <tr>
+
+                            <!-- Título e resumo -->
+                            <td class="ps-4">
+                                <div class="fw-semibold">
+                                    {{ comunicado.titulo }}
+                                </div>
+
+                                <small class="text-muted">
+                                    {{ comunicado.conteudo.length > 80
+                                    ? comunicado.conteudo.slice(0, 80) + '...'
+                                    : comunicado.conteudo }}
+                                </small>
+                            </td>
+
+                            <!-- Data -->
+                            <td>
+                                {{ comunicado.createdAt | date:'dd/MM/yyyy HH:mm':'':'pt-BR' }}
+                            </td>
+
+                            <!-- Status -->
+                            <td>
+                                @if (comunicado.ativo) {
+                                <span class="badge bg-success">
+                                    Ativo
+                                </span>
+                                } @else {
+                                <span class="badge bg-secondary">
+                                    Inativo
+                                </span>
+                                }
+                            </td>
+
+                            <!-- Ações -->
+                            <td class="text-end pe-4">
+
+                                <a [routerLink]="['/admin/comunicados', comunicado.id, 'editar']"
+                                    class="btn btn-sm btn-outline-primary me-2">
+                                    Editar
+                                </a>
+
+                                <button type="button" class="btn btn-sm btn-outline-danger"
+                                    (click)="abrirModalExclusao(comunicado)">
+                                    Excluir
+                                </button>
+
+                            </td>
+
+                        </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+    }
+
+    <!-- Modal de confirmação -->
+    @if (comunicadoParaExcluir) {
+
+    <div class="modal d-block" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="tituloModalExclusao"
+        style="background-color: rgba(0, 0, 0, 0.5);">
+
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloModalExclusao">
+                        Confirmar exclusão
+                    </h5>
+
+                    <button type="button" class="btn-close" aria-label="Fechar" [disabled]="excluindoComunicado"
+                        (click)="fecharModalExclusao()">
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <p>
+                        Tem certeza de que deseja excluir o comunicado
+                        <strong>{{ comunicadoParaExcluir.titulo }}</strong>?
+                    </p>
+
+                    <p class="text-danger mb-0">
+                        Esta ação não poderá ser desfeita.
+                    </p>
+
+                    @if (erroExclusao) {
+                    <div class="alert alert-danger mt-3 mb-0" role="alert">
+                        {{ erroExclusao }}
+                    </div>
+                    }
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" [disabled]="excluindoComunicado"
+                        (click)="fecharModalExclusao()">
+                        Cancelar
+                    </button>
+
+                    <button type="button" class="btn btn-danger" [disabled]="excluindoComunicado"
+                        (click)="confirmarExclusao()">
+
+                        @if (excluindoComunicado) {
+                        <span class="spinner-border spinner-border-sm me-2" aria-hidden="true">
+                        </span>
+                        Excluindo...
+                        } @else {
+                        Sim, excluir
+                        }
+
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    }
+
+</div>

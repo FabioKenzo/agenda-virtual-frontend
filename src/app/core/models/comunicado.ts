@@ -7,3 +7,9 @@ export interface Comunicado {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface ComunicadoRequest {
+    titulo: string;
+    conteudo: string;
+    ativo: boolean;
+}
