@@ -1,0 +1,130 @@
+<div class="container-fluid">
+
+    <!-- Cabeçalho -->
+    <div class="mb-4">
+        <h2 class="fw-bold mb-1">
+            {{ modoEdicao ? 'Editar Comunicado' : 'Novo Comunicado' }}
+        </h2>
+
+        <p class="text-muted mb-0">
+            @if (modoEdicao) {
+            Atualize as informações do comunicado escolar.
+            } @else {
+            Preencha as informações para publicar um comunicado escolar.
+            }
+        </p>
+    </div>
+
+    <!-- Carregamento na edição -->
+    @if (carregandoComunicado) {
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="text-muted mt-3">Carregando comunicado...</p>
+    </div>
+    } @else {
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+
+            <form [formGroup]="comunicadoForm" (ngSubmit)="salvarComunicado()">
+
+                <!-- Título -->
+                <div class="mb-3">
+                    <label for="titulo" class="form-label fw-semibold">
+                        Título *
+                    </label>
+
+                    <input id="titulo" type="text" class="form-control" formControlName="titulo" maxlength="150"
+                        placeholder="Ex.: Reunião de Pais">
+
+                    @if (comunicadoForm.controls.titulo.touched &&
+                    comunicadoForm.controls.titulo.invalid) {
+                    <small class="text-danger">
+                        Informe um título válido de até 150 caracteres.
+                    </small>
+                    }
+                </div>
+
+                <!-- Conteúdo -->
+                <div class="mb-3">
+                    <label for="conteudo" class="form-label fw-semibold">
+                        Conteúdo *
+                    </label>
+
+                    <textarea id="conteudo" class="form-control" formControlName="conteudo" rows="6"
+                        placeholder="Digite o conteúdo do comunicado"></textarea>
+
+                    @if (comunicadoForm.controls.conteudo.touched &&
+                    comunicadoForm.controls.conteudo.invalid) {
+                    <small class="text-danger">
+                        O conteúdo do comunicado é obrigatório.
+                    </small>
+                    }
+                </div>
+
+                <!-- Status -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">
+                        Status do comunicado
+                    </label>
+
+                    <div class="form-check form-switch">
+                        <input id="ativo" type="checkbox" class="form-check-input" formControlName="ativo">
+
+                        <label for="ativo" class="form-check-label">
+                            Comunicado ativo
+                        </label>
+                    </div>
+
+                    <small class="text-muted">
+                        Desative o comunicado caso não queira mantê-lo
+                        disponível para os responsáveis.
+                    </small>
+                </div>
+
+                <!-- Mensagens -->
+                @if (erroCadastro) {
+                <div class="alert alert-danger" role="alert">
+                    {{ erroCadastro }}
+                </div>
+                }
+
+                @if (sucessoCadastro) {
+                <div class="alert alert-success" role="status">
+                    {{ sucessoCadastro }}
+                </div>
+                }
+
+                <!-- Ações -->
+                <div class="d-flex justify-content-end gap-2">
+
+                    <a routerLink="/admin/comunicados" class="btn btn-outline-secondary">
+                        Cancelar
+                    </a>
+
+                    <button type="submit" class="btn btn-primary" [disabled]="
+                comunicadoForm.invalid ||
+                salvandoComunicado ||
+                exibindoSucesso ||
+                carregandoComunicado ||
+                (modoEdicao && !comunicadoCarregado)
+              ">
+
+                        @if (salvandoComunicado) {
+                        <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                        Salvando...
+                        } @else {
+                        {{ modoEdicao ? 'Salvar Alterações' : 'Salvar Comunicado' }}
+                        }
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+    }
+
+</div>

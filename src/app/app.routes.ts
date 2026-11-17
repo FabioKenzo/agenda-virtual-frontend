@@ -11,6 +11,9 @@ import { EventosComponent } from './features/admin/eventos/eventos.component';
 import { EventoFormComponent } from './features/admin/evento-form/evento-form.component';
 import { ComunicadosListaComponent } from './features/responsavel/comunicados-lista/comunicados-lista.component';
 import { PerfilComponent } from './features/responsavel/perfil/perfil.component';
+import { ComunicadosComponent } from './features/admin/comunicados/comunicados.component';
+import { ComunicadoFormComponent } from './features/admin/comunicado-form/comunicado-form.component';
+
 
 // Guards
 import { roleGuard } from './core/guards/role.guard';
@@ -60,6 +63,19 @@ export const routes: Routes = [
             {
                 path: 'eventos/:id/editar',
                 component: EventoFormComponent
+            },
+
+            {
+                path: 'comunicados',
+                component: ComunicadosComponent
+            },
+            {
+                path: 'comunicados/novo',
+                component: ComunicadoFormComponent
+            },
+            {
+                path: 'comunicados/:id/editar',
+                component: ComunicadoFormComponent
             }
         ]
     }
