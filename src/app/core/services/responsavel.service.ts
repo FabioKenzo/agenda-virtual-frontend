@@ -6,6 +6,7 @@ import { Comunicado } from '../models/comunicado';
 import { Pagina } from '../models/pagina';
 import { PerfilResponsavel } from '../models/perfil-responsavel';
 import { AlunoResponsavel } from '../models/aluno-responsavel';
+import { UpdatePerfilResponsavelRequest } from '../models/update-perfil-responsavel-request';
 
 
 @Injectable({
@@ -20,6 +21,16 @@ export class ResponsavelService {
   getAlunos(): Observable<AlunoResponsavel[]> {
     return this.http.get<AlunoResponsavel[]>(
       `${this.apiUrl}/responsavel/alunos`
+    );
+  }
+
+  updatePerfil(
+    request: UpdatePerfilResponsavelRequest
+  ): Observable<PerfilResponsavel> {
+    return this.http.patch<PerfilResponsavel>(
+      `${this.apiUrl}/responsavel/perfil`,
+      request,
+      { withCredentials: true }
     );
   }
 

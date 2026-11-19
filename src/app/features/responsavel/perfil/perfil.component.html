@@ -29,6 +29,11 @@
         <div class="secao-cabecalho">
             <i class="bi bi-person-vcard"></i>
             <h2 id="dados-titulo">Meus Dados</h2>
+
+            <button type="button" class="btn-editar-perfil" (click)="abrirModalEdicao()" aria-label="Editar perfil">
+                <i class="bi bi-pencil-square"></i>
+                <span>Editar perfil</span>
+            </button>
         </div>
 
         <div class="perfil-card">
@@ -130,5 +135,102 @@
     </section>
 
     }
+
+    @if (modalEdicaoAberto) {
+    <div class="modal-overlay">
+        <section class="modal-edicao" role="dialog" aria-modal="true" aria-labelledby="modal-edicao-titulo">
+
+            <div class="modal-edicao-header">
+                <div>
+                    <h2 id="modal-edicao-titulo">Editar perfil</h2>
+                    <p>Atualize seus dados pessoais.</p>
+                </div>
+
+                <button type="button" class="modal-fechar" aria-label="Fechar modal" (click)="fecharModalEdicao()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+
+            <form [formGroup]="formEdicao" (ngSubmit)="salvarPerfil()">
+
+                <div class="modal-edicao-body">
+
+                    @if (erroEdicao) {
+                    <div class="alert alert-danger" role="alert">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        {{ erroEdicao }}
+                    </div>
+                    }
+
+                    <div class="mb-3">
+                        <label for="perfil-nome" class="form-label">
+                            Nome completo
+                        </label>
+                        <input id="perfil-nome" type="text" class="form-control" formControlName="nome" maxlength="100"
+                            autocomplete="name">
+
+                        @if (formEdicao.controls.nome.touched &&
+                        formEdicao.controls.nome.invalid) {
+                        <small class="text-danger">
+                            Informe um nome válido.
+                        </small>
+                        }
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="perfil-telefone" class="form-label">
+                            Telefone
+                        </label>
+                        <input id="perfil-telefone" type="tel" class="form-control" formControlName="telefone"
+                            maxlength="20" autocomplete="tel">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="perfil-senha" class="form-label">
+                            Senha atual
+                        </label>
+                        <input id="perfil-senha" type="password" class="form-control" formControlName="senhaAtual"
+                            autocomplete="current-password">
+
+                        @if (formEdicao.controls.senhaAtual.touched &&
+                        formEdicao.controls.senhaAtual.invalid) {
+                        <small class="text-danger">
+                            Informe sua senha atual para confirmar.
+                        </small>
+                        }
+
+                        <small class="text-muted d-block mt-2">
+                            Por segurança, confirme sua senha antes de salvar.
+                        </small>
+                    </div>
+
+                </div>
+
+                <div class="modal-edicao-footer">
+                    <button type="button" class="btn btn-outline-secondary" [disabled]="salvandoPerfil"
+                        (click)="fecharModalEdicao()">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="btn btn-primary" [disabled]="formEdicao.invalid || salvandoPerfil">
+
+                        @if (salvandoPerfil) {
+                        <span class="spinner-border spinner-border-sm me-2" aria-hidden="true">
+                        </span>
+                        Salvando...
+                        } @else {
+                        <i class="bi bi-check-lg me-1"></i>
+                        Salvar alterações
+                        }
+
+                    </button>
+
+                </div>
+
+            </form>
+        </section>
+    </div>
+    }
+
 
 </div>
