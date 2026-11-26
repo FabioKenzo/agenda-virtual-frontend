@@ -25,6 +25,7 @@ export class PerfilComponent implements OnInit {
   modalEdicaoAberto = false;
   salvandoPerfil = false;
   erroEdicao = '';
+  sucessoEdicao = false;
 
   private readonly fb = inject(FormBuilder);
 
@@ -35,12 +36,14 @@ export class PerfilComponent implements OnInit {
   });
 
   abrirModalEdicao(): void {
+    this.sucessoEdicao = false;
     if (!this.perfil) return;
 
     this.formEdicao.reset({
       nome: this.perfil.nome,
       telefone: this.perfil.telefone ?? '',
       senhaAtual: ''
+
     });
 
     this.modalEdicaoAberto = true;
@@ -85,17 +88,34 @@ export class PerfilComponent implements OnInit {
         this.perfil = perfilAtualizado;
         this.salvandoPerfil = false;
         this.fecharModalEdicao();
+        this.sucessoEdicao = true;
       },
+
       error: (error) => {
         console.error('Erro ao atualizar perfil:', error);
 
-        this.erroEdicao =
-          error.status === 400
-            ? 'Não foi possível atualizar o perfil. Confira sua senha atual e os dados informados.'
-            : 'Não foi possível salvar as alterações. Tente novamente.';
+        const mensagemBackend = error.error?.message;
+
+        if (
+          error.status === 400 &&
+          mensagemBackend === 'Senha atual incorreta.'
+        ) {
+          this.erroEdicao =
+            'Senha atual incorreta. Verifique sua senha e tente novamente.';
+        } else if (error.status === 400) {
+          this.erroEdicao =
+            'Confira os dados informados e tente novamente.';
+        } else if (error.status === 401) {
+          this.erroEdicao =
+            'Sua autenticação expirou. Faça login novamente.';
+        } else {
+          this.erroEdicao =
+            'Não foi possível salvar as alterações. Tente novamente.';
+        }
 
         this.salvandoPerfil = false;
       }
+
     });
   }
 

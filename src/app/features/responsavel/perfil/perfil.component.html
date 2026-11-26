@@ -1,5 +1,18 @@
 <div class="perfil-container">
 
+    @if (sucessoEdicao) {
+    <div class="alert alert-success d-flex align-items-center gap-2" role="status" aria-live="polite">
+
+        <i class="bi bi-check-circle-fill"></i>
+
+        <span>
+            <strong>Perfil atualizado com sucesso!</strong>
+            Suas informações foram salvas.
+        </span>
+
+    </div>
+    }
+
     <header class="pagina-header">
         <div>
             <h1>Meu Perfil</h1>
