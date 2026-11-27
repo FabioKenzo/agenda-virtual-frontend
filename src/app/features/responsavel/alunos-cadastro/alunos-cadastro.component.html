@@ -1,0 +1,302 @@
+<div class="container py-4">
+
+    @if (cadastroConcluido) {
+
+    <div class="text-center py-5">
+
+        <div class="success-check-circle">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M17 33 L27 43 L47 22" />
+            </svg>
+        </div>
+
+        <h2 class="fw-bold mt-3 success-message">
+            Cadastro realizado com sucesso!
+        </h2>
+
+        <p class="text-muted success-message">
+            Os dados dos seus filhos foram cadastrados
+            com sucesso na Agenda Virtual Escolar.
+        </p>
+
+        <div class="d-flex justify-content-center flex-wrap gap-3 mt-4">
+
+            <a routerLink="/responsavel" class="btn btn-primary">
+
+                <i class="bi bi-house-door me-2"></i>
+                Voltar ao início
+
+            </a>
+
+            <a routerLink="/responsavel/perfil" class="btn btn-outline-primary">
+
+                <i class="bi bi-people me-2"></i>
+                Ver meus filhos
+
+            </a>
+
+        </div>
+
+    </div>
+
+    } @else if (!revisando) {
+
+    <!-- CADASTRO -->
+
+    <div class="mb-4">
+        <h2 class="fw-bold mb-2">Cadastrar filhos</h2>
+        <p class="text-muted">
+            Informe os dados dos seus filhos para acompanhar
+            os eventos e comunicados da escola.
+        </p>
+    </div>
+
+    <form [formGroup]="formCadastro" (ngSubmit)="avancarParaRevisao()" novalidate>
+
+        <div formArrayName="alunos">
+
+            @for (aluno of alunos.controls; track aluno; let i = $index) {
+
+            <div [formGroupName]="i" class="card shadow-sm mb-3">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                        <h5 class="fw-semibold mb-0">
+                            <i class="bi bi-person me-2"></i>
+                            Filho {{ i + 1 }}
+                        </h5>
+
+                        @if (alunos.length > 1) {
+                        <button type="button" class="btn btn-outline-danger btn-sm" (click)="removerAluno(i)">
+
+                            <i class="bi bi-trash me-1"></i>
+                            Remover
+
+                        </button>
+                        }
+
+                    </div>
+
+                    <div class="row g-3">
+
+                        <!-- Nome completo -->
+                        <div class="col-12">
+
+                            <label [for]="'nome-' + i" class="form-label">
+                                Nome completo
+                            </label>
+
+                            <input [id]="'nome-' + i" type="text" class="form-control" formControlName="nome"
+                                maxlength="100" placeholder="Digite o nome completo" [class.is-invalid]="
+                      aluno.get('nome')?.invalid &&
+                      aluno.get('nome')?.touched
+                    ">
+
+                            <div class="invalid-feedback">
+                                Informe um nome válido de até 100 caracteres.
+                            </div>
+
+                        </div>
+
+                        <!-- Data de nascimento -->
+                        <div class="col-md-6">
+
+                            <label [for]="'nascimento-' + i" class="form-label">
+                                Data de nascimento
+                            </label>
+
+                            <input [id]="'nascimento-' + i" type="date" class="form-control"
+                                formControlName="dataNascimento" [max]="dataMaxima" [class.is-invalid]="
+                      aluno.get('dataNascimento')?.invalid &&
+                      aluno.get('dataNascimento')?.touched
+                    ">
+
+                            <div class="invalid-feedback">
+                                Informe uma data válida que não seja futura.
+                            </div>
+
+                        </div>
+
+                        <!-- Turma -->
+                        <div class="col-md-6">
+
+                            <label [for]="'turma-' + i" class="form-label">
+                                Turma
+                            </label>
+
+                            <select [id]="'turma-' + i" class="form-select" formControlName="turma" [class.is-invalid]="
+                      aluno.get('turma')?.invalid &&
+                      aluno.get('turma')?.touched
+                    ">
+
+                                <option value="">
+                                    Selecione a turma
+                                </option>
+
+                                @for (turma of turmas; track turma) {
+                                <option [value]="turma">
+                                    {{ turma }}
+                                </option>
+                                }
+
+                            </select>
+
+                            <div class="invalid-feedback">
+                                Selecione uma turma válida.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            }
+
+        </div>
+
+        <!-- Adicionar outro filho -->
+        <button type="button" class="btn btn-outline-primary mb-3" (click)="adicionarAluno()"
+            [disabled]="alunos.length >= 10">
+
+            <i class="bi bi-plus-circle me-2"></i>
+            Adicionar outro filho
+
+        </button>
+
+        <p class="text-muted small mb-4">
+            {{ alunos.length }} de 10 alunos nesta solicitação.
+        </p>
+
+        <div class="d-flex justify-content-end border-top pt-3">
+
+            <button type="submit" class="btn btn-primary px-4">
+
+                Revisar dados
+                <i class="bi bi-arrow-right ms-2"></i>
+
+            </button>
+
+        </div>
+
+    </form>
+
+    } @else {
+
+    <!-- REVISÃO -->
+
+    <div class="mb-4">
+        <h2 class="fw-bold mb-2">Revisar dados</h2>
+
+        <p class="text-muted">
+            Confira as informações dos seus filhos antes
+            de confirmar o cadastro.
+        </p>
+    </div>
+
+    <div class="alert alert-info d-flex align-items-center gap-2" role="status">
+        <i class="bi bi-info-circle"></i>
+        <span>
+            Revise os dados abaixo. Caso encontre alguma informação
+            incorreta, clique em "Voltar e editar".
+        </span>
+    </div>
+
+    @if (erroCadastro) {
+    <div class="alert alert-danger" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        {{ erroCadastro }}
+    </div>
+    }
+
+    @for (aluno of alunos.controls; track aluno; let i = $index) {
+
+    <div class="card shadow-sm mb-3">
+
+        <div class="card-body">
+
+            <h5 class="fw-semibold mb-3">
+                <i class="bi bi-person-check me-2"></i>
+                Filho {{ i + 1 }}
+            </h5>
+
+            <div class="row g-3">
+
+                <div class="col-12">
+                    <span class="text-muted small d-block">
+                        Nome completo
+                    </span>
+
+                    <strong>
+                        {{ aluno.get('nome')?.value }}
+                    </strong>
+                </div>
+
+                <div class="col-md-6">
+                    <span class="text-muted small d-block">
+                        Data de nascimento
+                    </span>
+
+                    <strong>
+                        {{ formatarDataBrasileira(aluno.get('dataNascimento')?.value ?? null) }}
+                    </strong>
+                </div>
+
+                <div class="col-md-6">
+                    <span class="text-muted small d-block">
+                        Turma
+                    </span>
+
+                    <strong>
+                        {{ aluno.get('turma')?.value }}
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    }
+
+    <!-- Resumo -->
+    <div class="alert alert-secondary">
+        <i class="bi bi-people me-2"></i>
+
+        Total de filhos para cadastrar:
+        <strong>{{ alunos.length }}</strong>
+    </div>
+
+    <!-- Ações -->
+    <div class="d-flex justify-content-between gap-2 border-top pt-3">
+
+        <button type="button" class="btn btn-outline-secondary" (click)="voltarParaEdicao()" [disabled]="salvando">
+
+            <i class="bi bi-arrow-left me-2"></i>
+            Voltar e editar
+
+        </button>
+
+        <button type="button" class="btn btn-success" (click)="confirmarCadastro()" [disabled]="salvando">
+
+            @if (salvando) {
+            <span class="spinner-border spinner-border-sm me-2" aria-hidden="true">
+            </span>
+            Cadastrando...
+            } @else {
+            <i class="bi bi-check-circle me-2"></i>
+            Confirmar cadastro
+            }
+
+        </button>
+
+    </div>
+
+    }
+
+</div>

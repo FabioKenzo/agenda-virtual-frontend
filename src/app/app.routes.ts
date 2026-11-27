@@ -13,6 +13,7 @@ import { ComunicadosListaComponent } from './features/responsavel/comunicados-li
 import { PerfilComponent } from './features/responsavel/perfil/perfil.component';
 import { ComunicadosComponent } from './features/admin/comunicados/comunicados.component';
 import { ComunicadoFormComponent } from './features/admin/comunicado-form/comunicado-form.component';
+import { AlunosCadastroComponent } from './features/responsavel/alunos-cadastro/alunos-cadastro.component';
 
 
 // Guards
@@ -37,7 +38,8 @@ export const routes: Routes = [
             { path: 'eventos/:id', component: EventoDetalheComponent },
             { path: 'comunicados', component: ComunicadosListaComponent },
             { path: 'comunicados/:id', component: ComunicadoDetalheComponent },
-            { path: 'perfil', component: PerfilComponent }
+            { path: 'perfil', component: PerfilComponent },
+            { path: 'alunos/cadastrar', component: AlunosCadastroComponent }
         ]
     },
 

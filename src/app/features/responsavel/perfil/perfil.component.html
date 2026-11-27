@@ -2,14 +2,21 @@
 
     @if (sucessoEdicao) {
     <div class="alert alert-success d-flex align-items-center gap-2" role="status" aria-live="polite">
-
-        <i class="bi bi-check-circle-fill"></i>
-
+        <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
         <span>
             <strong>Perfil atualizado com sucesso!</strong>
             Suas informações foram salvas.
         </span>
+    </div>
+    }
 
+    @if (sucessoEdicaoAluno) {
+    <div class="alert alert-success d-flex align-items-center gap-2" role="status" aria-live="polite">
+        <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+        <span>
+            <strong>Aluno atualizado com sucesso!</strong>
+            As informações foram salvas.
+        </span>
     </div>
     }
 
@@ -18,7 +25,7 @@
             <h1>Meu Perfil</h1>
             <p>Consulte seus dados e os alunos vinculados à sua conta.</p>
         </div>
-        <i class="bi bi-person-circle"></i>
+        <i class="bi bi-person-circle" aria-hidden="true"></i>
     </header>
 
     @if (carregando) {
@@ -28,7 +35,7 @@
     </div>
     } @else if (erro) {
     <div class="estado-mensagem" role="alert">
-        <i class="bi bi-exclamation-circle"></i>
+        <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
         <p>Não foi possível carregar as informações do perfil.</p>
 
         <button type="button" class="btn btn-primary" (click)="carregarDados()">
@@ -40,11 +47,12 @@
     <section class="perfil-secao" aria-labelledby="dados-titulo">
 
         <div class="secao-cabecalho">
-            <i class="bi bi-person-vcard"></i>
+            <i class="bi bi-person-vcard" aria-hidden="true"></i>
             <h2 id="dados-titulo">Meus Dados</h2>
 
             <button type="button" class="btn-editar-perfil" (click)="abrirModalEdicao()" aria-label="Editar perfil">
-                <i class="bi bi-pencil-square"></i>
+
+                <i class="bi bi-pencil-square" aria-hidden="true"></i>
                 <span>Editar perfil</span>
             </button>
         </div>
@@ -53,7 +61,7 @@
 
             <div class="perfil-identidade">
                 <div class="perfil-avatar">
-                    <i class="bi bi-person"></i>
+                    <i class="bi bi-person" aria-hidden="true"></i>
                 </div>
 
                 <div>
@@ -66,7 +74,7 @@
 
                 <div class="informacao-item">
                     <span class="informacao-label">
-                        <i class="bi bi-envelope"></i>
+                        <i class="bi bi-envelope" aria-hidden="true"></i>
                         E-mail
                     </span>
                     <span class="informacao-valor">{{ perfil.email }}</span>
@@ -74,7 +82,7 @@
 
                 <div class="informacao-item">
                     <span class="informacao-label">
-                        <i class="bi bi-telephone"></i>
+                        <i class="bi bi-telephone" aria-hidden="true"></i>
                         Telefone
                     </span>
                     <span class="informacao-valor">
@@ -90,7 +98,7 @@
     <section class="perfil-secao" aria-labelledby="alunos-titulo">
 
         <div class="secao-cabecalho">
-            <i class="bi bi-mortarboard"></i>
+            <i class="bi bi-mortarboard" aria-hidden="true"></i>
             <h2 id="alunos-titulo">Meus Alunos</h2>
             <span class="alunos-contador">{{ alunos.length }}</span>
         </div>
@@ -98,7 +106,7 @@
         @if (alunos.length === 0) {
 
         <div class="estado-mensagem">
-            <i class="bi bi-people"></i>
+            <i class="bi bi-people" aria-hidden="true"></i>
             <p>Nenhum aluno vinculado à sua conta.</p>
         </div>
 
@@ -111,22 +119,31 @@
             <article class="aluno-card">
 
                 <div class="aluno-icone">
-                    <i class="bi bi-person-badge"></i>
+                    <i class="bi bi-person-badge" aria-hidden="true"></i>
                 </div>
 
                 <div class="aluno-conteudo">
 
-                    <h3>{{ aluno.nome }}</h3>
+                    <div class="aluno-cabecalho">
+                        <h3>{{ aluno.nome }}</h3>
+
+                        <button type="button" class="btn-editar-aluno" (click)="abrirModalAluno(aluno)"
+                            [attr.aria-label]="'Editar dados de ' + aluno.nome"
+                            [attr.title]="'Editar dados de ' + aluno.nome">
+
+                            <i class="bi bi-pencil" aria-hidden="true"></i>
+                        </button>
+                    </div>
 
                     <div class="aluno-informacao">
-                        <i class="bi bi-book"></i>
+                        <i class="bi bi-book" aria-hidden="true"></i>
                         <span>
                             Turma: {{ aluno.turma || 'Não informada' }}
                         </span>
                     </div>
 
                     <div class="aluno-informacao">
-                        <i class="bi bi-calendar3"></i>
+                        <i class="bi bi-calendar3" aria-hidden="true"></i>
                         <span>
                             Nascimento:
                             {{ aluno.dataNascimento
@@ -151,6 +168,7 @@
 
     @if (modalEdicaoAberto) {
     <div class="modal-overlay">
+
         <section class="modal-edicao" role="dialog" aria-modal="true" aria-labelledby="modal-edicao-titulo">
 
             <div class="modal-edicao-header">
@@ -160,7 +178,8 @@
                 </div>
 
                 <button type="button" class="modal-fechar" aria-label="Fechar modal" (click)="fecharModalEdicao()">
-                    <i class="bi bi-x-lg"></i>
+
+                    <i class="bi bi-x-lg" aria-hidden="true"></i>
                 </button>
             </div>
 
@@ -170,7 +189,7 @@
 
                     @if (erroEdicao) {
                     <div class="alert alert-danger" role="alert">
-                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        <i class="bi bi-exclamation-triangle me-2" aria-hidden="true"></i>
                         {{ erroEdicao }}
                     </div>
                     }
@@ -179,6 +198,7 @@
                         <label for="perfil-nome" class="form-label">
                             Nome completo
                         </label>
+
                         <input id="perfil-nome" type="text" class="form-control" formControlName="nome" maxlength="100"
                             autocomplete="name">
 
@@ -194,6 +214,7 @@
                         <label for="perfil-telefone" class="form-label">
                             Telefone
                         </label>
+
                         <input id="perfil-telefone" type="tel" class="form-control" formControlName="telefone"
                             maxlength="20" autocomplete="tel">
                     </div>
@@ -202,6 +223,7 @@
                         <label for="perfil-senha" class="form-label">
                             Senha atual
                         </label>
+
                         <input id="perfil-senha" type="password" class="form-control" formControlName="senhaAtual"
                             autocomplete="current-password">
 
@@ -220,8 +242,10 @@
                 </div>
 
                 <div class="modal-edicao-footer">
+
                     <button type="button" class="btn btn-outline-secondary" [disabled]="salvandoPerfil"
                         (click)="fecharModalEdicao()">
+
                         Cancelar
                     </button>
 
@@ -232,7 +256,7 @@
                         </span>
                         Salvando...
                         } @else {
-                        <i class="bi bi-check-lg me-1"></i>
+                        <i class="bi bi-check-lg me-1" aria-hidden="true"></i>
                         Salvar alterações
                         }
 
@@ -241,9 +265,190 @@
                 </div>
 
             </form>
+
+        </section>
+
+    </div>
+    }
+
+
+    <!-- Modal de edição do aluno -->
+    @if (modalAlunoAberto && !confirmandoEdicaoAluno) {
+    <div class="modal-overlay">
+        <section class="modal-edicao" role="dialog" aria-modal="true" aria-labelledby="modal-aluno-titulo">
+
+            <div class="modal-edicao-header">
+                <div>
+                    <h2 id="modal-aluno-titulo">Editar aluno</h2>
+                    <p>Atualize os dados do aluno vinculado à sua conta.</p>
+                </div>
+
+                <button type="button" class="modal-fechar" aria-label="Fechar modal" (click)="fecharModalAluno()">
+                    <i class="bi bi-x-lg" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <form [formGroup]="formEdicaoAluno" (ngSubmit)="avancarConfirmacaoAluno()">
+
+                <div class="modal-edicao-body">
+
+                    <div class="mb-3">
+                        <label for="aluno-nome" class="form-label">
+                            Nome completo
+                        </label>
+
+                        <input id="aluno-nome" type="text" class="form-control" formControlName="nome" maxlength="100"
+                            autocomplete="off">
+
+                        @if (formEdicaoAluno.controls.nome.touched &&
+                        formEdicaoAluno.controls.nome.invalid) {
+                        <small class="text-danger">
+                            Informe um nome válido.
+                        </small>
+                        }
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="aluno-nascimento" class="form-label">
+                            Data de nascimento
+                        </label>
+
+                        <input id="aluno-nascimento" type="date" class="form-control" formControlName="dataNascimento"
+                            [max]="dataMaxima">
+
+                        @if (formEdicaoAluno.controls.dataNascimento.touched &&
+                        (formEdicaoAluno.controls.dataNascimento.invalid ||
+                        formEdicaoAluno.controls.dataNascimento.value > dataMaxima)) {
+                        <small class="text-danger">
+                            Informe uma data de nascimento válida.
+                        </small>
+                        }
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="aluno-turma" class="form-label">
+                            Turma
+                        </label>
+
+                        <select id="aluno-turma" class="form-select" formControlName="turma">
+
+                            <option value="">Selecione uma turma</option>
+
+                            @for (turma of turmas; track turma) {
+                            <option [value]="turma">{{ turma }}</option>
+                            }
+
+                        </select>
+
+                        @if (formEdicaoAluno.controls.turma.touched &&
+                        formEdicaoAluno.controls.turma.invalid) {
+                        <small class="text-danger">
+                            Selecione uma turma válida.
+                        </small>
+                        }
+                    </div>
+
+                </div>
+
+                <div class="modal-edicao-footer">
+                    <button type="button" class="btn btn-outline-secondary" (click)="fecharModalAluno()">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="btn btn-primary">
+                        Continuar
+                        <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+            </form>
         </section>
     </div>
     }
 
+    <!-- Modal de confirmação por senha -->
+    @if (modalAlunoAberto && confirmandoEdicaoAluno) {
+    <div class="modal-overlay">
+        <section class="modal-edicao" role="dialog" aria-modal="true" aria-labelledby="confirmacao-aluno-titulo">
+
+            <div class="modal-edicao-header">
+                <div>
+                    <h2 id="confirmacao-aluno-titulo">Confirmar alterações</h2>
+                    <p>Informe sua senha atual para salvar os dados do aluno.</p>
+                </div>
+
+                <button type="button" class="modal-fechar" aria-label="Fechar modal" [disabled]="salvandoAluno"
+                    (click)="fecharModalAluno()">
+                    <i class="bi bi-x-lg" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <form [formGroup]="formEdicaoAluno" (ngSubmit)="salvarAluno()">
+
+                <div class="modal-edicao-body">
+
+                    <div class="mb-3">
+                        <span class="text-muted small">Aluno</span>
+                        <p class="fw-semibold mb-1">
+                            {{ formEdicaoAluno.controls.nome.value }}
+                        </p>
+
+                        <span class="text-muted small">Turma</span>
+                        <p class="fw-semibold mb-0">
+                            {{ formEdicaoAluno.controls.turma.value }}
+                        </p>
+                    </div>
+
+                    @if (erroEdicaoAluno) {
+                    <div class="alert alert-danger" role="alert">
+                        <i class="bi bi-exclamation-triangle me-2" aria-hidden="true"></i>
+                        {{ erroEdicaoAluno }}
+                    </div>
+                    }
+
+                    <div class="mb-3">
+                        <label for="aluno-senha" class="form-label">
+                            Senha atual
+                        </label>
+
+                        <input id="aluno-senha" type="password" class="form-control" formControlName="senhaAtual"
+                            autocomplete="current-password" [readonly]="salvandoAluno">
+
+                        @if (formEdicaoAluno.controls.senhaAtual.touched &&
+                        !formEdicaoAluno.controls.senhaAtual.value.trim()) {
+                        <small class="text-danger">
+                            Informe sua senha atual para confirmar.
+                        </small>
+                        }
+
+                        <small class="text-muted d-block mt-2">
+                            Por segurança, confirme sua identidade antes de salvar.
+                        </small>
+                    </div>
+
+                </div>
+
+                <div class="modal-edicao-footer">
+                    <button type="button" class="btn btn-outline-secondary" [disabled]="salvandoAluno"
+                        (click)="voltarEdicaoAluno()">
+                        Voltar
+                    </button>
+
+                    <button type="submit" class="btn btn-primary" [disabled]="salvandoAluno">
+
+                        @if (salvandoAluno) {
+                        <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                        Salvando...
+                        } @else {
+                        <i class="bi bi-check-lg me-1" aria-hidden="true"></i>
+                        Salvar alterações
+                        }
+                    </button>
+                </div>
+
+            </form>
+        </section>
+    </div>
+    }
 
 </div>

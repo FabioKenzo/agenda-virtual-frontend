@@ -1,3 +1,7 @@
+/* ========================================
+   CONFIGURAÇÕES GERAIS
+======================================== */
+
 :host {
     display: block;
     min-height: 100%;
@@ -10,7 +14,9 @@
     padding: 32px 24px 64px;
 }
 
-/* Cabeçalho */
+/* ========================================
+   CABEÇALHO DA PÁGINA
+======================================== */
 
 .pagina-header {
     display: flex;
@@ -38,7 +44,9 @@
     font-size: 2.5rem;
 }
 
-/* Seções */
+/* ========================================
+   SEÇÕES
+======================================== */
 
 .perfil-secao {
     margin-bottom: 36px;
@@ -77,7 +85,9 @@
     font-weight: 600;
 }
 
-/* Card do responsável */
+/* ========================================
+   CARD DO RESPONSÁVEL
+======================================== */
 
 .perfil-card {
     padding: 28px;
@@ -153,7 +163,43 @@
     overflow-wrap: anywhere;
 }
 
-/* Cards dos alunos */
+/* ========================================
+   BOTÃO EDITAR PERFIL
+======================================== */
+
+.btn-editar-perfil {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-left: auto;
+    padding: 9px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #334155;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.btn-editar-perfil:hover {
+    background-color: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+.btn-editar-perfil:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 3px;
+}
+
+/* ========================================
+   CARDS DOS ALUNOS
+======================================== */
 
 .alunos-grid {
     display: grid;
@@ -169,7 +215,10 @@
     border: 1px solid #e2e8f0;
     border-radius: 12px;
     background-color: #ffffff;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .aluno-card:hover {
@@ -195,13 +244,78 @@
     min-width: 0;
 }
 
-.aluno-conteudo h3 {
-    margin: 0 0 16px;
+/* ========================================
+   NOME DO ALUNO + LÁPIS
+======================================== */
+
+.aluno-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+    margin-bottom: 16px;
+}
+
+.aluno-cabecalho h3 {
+    flex: 0 1 auto;
+    min-width: 0;
+    margin: 0;
     color: #172b4d;
     font-size: 1.1rem;
     font-weight: 600;
+    line-height: 1.5;
     overflow-wrap: anywhere;
 }
+
+/* Ícone minimalista de edição */
+
+.aluno-cabecalho .btn-editar-aluno {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 28px;
+    height: 28px;
+    padding: 0;
+
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    box-shadow: none;
+
+    color: #94a3b8;
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.aluno-cabecalho .btn-editar-aluno i {
+    font-size: 0.8rem;
+    line-height: 1;
+}
+
+.aluno-cabecalho .btn-editar-aluno:hover {
+    color: #175cd3;
+    background-color: #eff6ff;
+}
+
+.aluno-cabecalho .btn-editar-aluno:focus-visible {
+    outline: 2px solid #175cd3;
+    outline-offset: 2px;
+}
+
+.aluno-cabecalho .btn-editar-aluno:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ========================================
+   INFORMAÇÕES DOS ALUNOS
+======================================== */
 
 .aluno-informacao {
     display: flex;
@@ -217,7 +331,9 @@
     font-size: 1rem;
 }
 
-/* Estados de carregamento e erro */
+/* ========================================
+   ESTADOS DE CARREGAMENTO E ERRO
+======================================== */
 
 .estado-mensagem {
     display: flex;
@@ -243,9 +359,150 @@
     margin: 0;
 }
 
-/* Responsividade */
+/* ========================================
+   MODAIS
+======================================== */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.55);
+
+    animation: modal-overlay-entrada 220ms ease-out both;
+}
+
+.modal-edicao {
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    max-height: 90dvh;
+    overflow-y: auto;
+
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
+
+    animation: modal-entrada 240ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* Cabeçalho do modal */
+
+.modal-edicao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-edicao-header h2 {
+    margin: 0 0 6px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.modal-edicao-header p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #64748b;
+}
+
+/* Botão fechar */
+
+.modal-fechar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 32px;
+    height: 32px;
+    padding: 0;
+
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #64748b;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.modal-fechar:hover {
+    background-color: #f1f5f9;
+    color: #172b4d;
+}
+
+.modal-fechar:focus-visible {
+    outline: 2px solid #175cd3;
+    outline-offset: 2px;
+}
+
+.modal-fechar:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Corpo do modal */
+
+.modal-edicao-body {
+    padding: 24px;
+}
+
+/* Rodapé do modal */
+
+.modal-edicao-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* ========================================
+   ANIMAÇÕES DOS MODAIS
+======================================== */
+
+@keyframes modal-overlay-entrada {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modal-entrada {
+    from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ========================================
+   RESPONSIVIDADE - TABLETS
+======================================== */
 
 @media (max-width: 768px) {
+
     .perfil-container {
         padding: 24px 16px 48px;
     }
@@ -272,7 +529,12 @@
     }
 }
 
+/* ========================================
+   RESPONSIVIDADE - CELULARES
+======================================== */
+
 @media (max-width: 480px) {
+
     .pagina-header>i {
         display: none;
     }
@@ -297,115 +559,27 @@
         height: 44px;
         font-size: 1.3rem;
     }
-}
 
-@media (prefers-reduced-motion: reduce) {
-    .aluno-card {
-        transition: none;
+    .aluno-cabecalho {
+        gap: 4px;
     }
-}
 
+    .aluno-cabecalho .btn-editar-aluno {
+        width: 32px;
+        height: 32px;
+    }
 
-.btn-editar-perfil {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-left: auto;
-    padding: 9px 16px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    background-color: #fff;
-    color: #334155;
-    font-size: 0.875rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.btn-editar-perfil:hover {
-    background-color: #f1f5f9;
-    border-color: #94a3b8;
-}
-
-.btn-editar-perfil:focus-visible {
-    outline: 2px solid #2563eb;
-    outline-offset: 3px;
-}
-
-@media (max-width: 480px) {
     .btn-editar-perfil {
         padding: 9px 12px;
     }
-}
 
+    .modal-overlay {
+        padding: 12px;
+    }
 
-/* Modal de edição do perfil */
-
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1050;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: rgba(15, 23, 42, 0.55);
-}
-
-.modal-edicao {
-    width: 100%;
-    max-width: 480px;
-    max-height: 90vh;
-    overflow-y: auto;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
-}
-
-.modal-edicao-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 24px;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.modal-edicao-header h2 {
-    margin: 0 0 6px;
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #0f172a;
-}
-
-.modal-edicao-header p {
-    margin: 0;
-    font-size: 0.875rem;
-    color: #64748b;
-}
-
-.modal-fechar {
-    border: none;
-    background: transparent;
-    color: #64748b;
-    cursor: pointer;
-    font-size: 1.1rem;
-}
-
-.modal-edicao-body {
-    padding: 24px;
-}
-
-.modal-edicao-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    padding: 16px 24px;
-    border-top: 1px solid #e2e8f0;
-}
-
-@media (max-width: 480px) {
+    .modal-edicao {
+        max-height: calc(100dvh - 24px);
+    }
 
     .modal-edicao-header,
     .modal-edicao-body {
@@ -414,5 +588,23 @@
 
     .modal-edicao-footer {
         padding: 16px 20px;
+        flex-wrap: wrap;
+    }
+}
+
+/* ========================================
+   ACESSIBILIDADE
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .aluno-card,
+    .btn-editar-perfil,
+    .aluno-cabecalho .btn-editar-aluno,
+    .modal-overlay,
+    .modal-edicao,
+    .modal-fechar {
+        animation: none;
+        transition: none;
     }
 }
