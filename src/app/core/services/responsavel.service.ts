@@ -7,6 +7,8 @@ import { Pagina } from '../models/pagina';
 import { PerfilResponsavel } from '../models/perfil-responsavel';
 import { AlunoResponsavel } from '../models/aluno-responsavel';
 import { UpdatePerfilResponsavelRequest } from '../models/update-perfil-responsavel-request';
+import { CreateStudentsRequest } from '../models/create-students-request';
+import { UpdateStudentRequest } from '../models/update-student-request';
 
 
 @Injectable({
@@ -21,6 +23,29 @@ export class ResponsavelService {
   getAlunos(): Observable<AlunoResponsavel[]> {
     return this.http.get<AlunoResponsavel[]>(
       `${this.apiUrl}/responsavel/alunos`
+    );
+  }
+
+  createStudents(
+    request: CreateStudentsRequest
+  ): Observable<AlunoResponsavel[]> {
+
+    return this.http.post<AlunoResponsavel[]>(
+      `${this.apiUrl}/responsavel/alunos`,
+      request,
+      { withCredentials: true }
+    );
+  }
+
+  updateAluno(
+    alunoId: number,
+    request: UpdateStudentRequest
+  ): Observable<AlunoResponsavel> {
+
+    return this.http.patch<AlunoResponsavel>(
+      `${this.apiUrl}/responsavel/alunos/${alunoId}`,
+      request,
+      { withCredentials: true }
     );
   }
 
